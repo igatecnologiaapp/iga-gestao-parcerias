@@ -257,7 +257,8 @@ export const runIdempotentOperation = createServerFn({ method: "POST" })
       _response: { executed_at: new Date().toISOString() } as never,
     });
     if (error) throw new Error(error.message);
-    return result as { status: string; response?: Record<string, unknown> | null };
+    const parsed = result as { status?: string } | null;
+    return { status: parsed?.status ?? "unknown" };
   });
 
 export const listNotifications = createServerFn({ method: "GET" })
