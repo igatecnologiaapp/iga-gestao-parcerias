@@ -141,7 +141,8 @@ export async function cleanup(a: SupabaseClient, companyIds: string[], userIds: 
     await a.from("idempotency_keys").delete().eq("user_id", u);
   }
   // audit_events é append-only por design: as linhas geradas pelos testes permanecem.
-  for (const c of companyIds) await a.from("companies").delete().eq("id", c);
+  // Empresas não são removidas (o audit trail referencia company_id): são inativadas.
+  for (const c of companyIds) await a.from("companies").update({ status: "inactive" }).eq("id", c);
   for (const u of userIds) await a.auth.admin.deleteUser(u);
 }
 
