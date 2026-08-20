@@ -84,11 +84,22 @@ export const listCompanyPeople = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ companyId: z.string().uuid() }).parse(d))
   .handler(async ({ context, data }) => {
     const { supabase } = context;
-    const { data: memberships, error } = await supabase
+    const { data: rawMemberships, error } = await supabase
       .from("memberships")
-      .select("id, user_id, status, created_at, profiles:user_id(id, full_name, email, is_active)")
+      .select("id, user_id, status, created_at")
       .eq("company_id", data.companyId);
     if (error) throw new Error(error.message);
+
+    const userIds = (rawMemberships ?? []).map((m) => m.user_id);
+    const { data: profiles } = userIds.length
+      ? await supabase.from("profiles").select("id, full_name, email, is_active").in("id", userIds)
+      : { data: [] };
+
+    const memberships = (rawMemberships ?? []).map((m) => ({
+      ...m,
+      profiles: (profiles ?? []).find((p) => p.id === m.user_id) ?? null,
+    }));
+
 
     const { data: assignments } = await supabase
       .from("role_assignments")
