@@ -14,6 +14,162 @@ export type Database = {
   }
   public: {
     Tables: {
+      approval_requests: {
+        Row: {
+          company_id: string
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          decision_reason: string | null
+          id: string
+          object_id: string | null
+          object_type: string
+          payload: Json
+          reference: string | null
+          requested_by: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_reason?: string | null
+          id?: string
+          object_id?: string | null
+          object_type: string
+          payload?: Json
+          reference?: string | null
+          requested_by: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_reason?: string | null
+          id?: string
+          object_id?: string | null
+          object_type?: string
+          payload?: Json
+          reference?: string | null
+          requested_by?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "approval_requests_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attachments: {
+        Row: {
+          company_id: string
+          created_at: string
+          file_name: string
+          id: string
+          metadata: Json
+          mime_type: string | null
+          object_id: string | null
+          object_type: string
+          size_bytes: number | null
+          storage_path: string
+          uploaded_by: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          file_name: string
+          id?: string
+          metadata?: Json
+          mime_type?: string | null
+          object_id?: string | null
+          object_type: string
+          size_bytes?: number | null
+          storage_path: string
+          uploaded_by: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          file_name?: string
+          id?: string
+          metadata?: Json
+          mime_type?: string | null
+          object_id?: string | null
+          object_type?: string
+          size_bytes?: number | null
+          storage_path?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attachments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_events: {
+        Row: {
+          action: string
+          actor_id: string | null
+          after_state: Json | null
+          before_state: Json | null
+          company_id: string | null
+          context: Json
+          correlation_id: string | null
+          created_at: string
+          id: string
+          object_id: string | null
+          object_type: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          after_state?: Json | null
+          before_state?: Json | null
+          company_id?: string | null
+          context?: Json
+          correlation_id?: string | null
+          created_at?: string
+          id?: string
+          object_id?: string | null
+          object_type: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          after_state?: Json | null
+          before_state?: Json | null
+          company_id?: string | null
+          context?: Json
+          correlation_id?: string | null
+          created_at?: string
+          id?: string
+          object_id?: string | null
+          object_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           created_at: string
@@ -43,6 +199,85 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      company_settings: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_settings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      idempotency_keys: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          id: string
+          key: string
+          operation: string
+          request_hash: string
+          response: Json | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          key: string
+          operation: string
+          request_hash: string
+          response?: Json | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          key?: string
+          operation?: string
+          request_hash?: string
+          response?: Json | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "idempotency_keys_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       memberships: {
         Row: {
@@ -89,6 +324,50 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string | null
+          category: string
+          company_id: string | null
+          created_at: string
+          id: string
+          payload: Json
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          category?: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          category?: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       permissions: {
         Row: {
           code: string
@@ -112,6 +391,89 @@ export type Database = {
           module?: string
         }
         Relationships: []
+      }
+      policies: {
+        Row: {
+          code: string
+          company_id: string
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          code: string
+          company_id: string
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_versions: {
+        Row: {
+          company_id: string
+          content: Json
+          created_at: string
+          created_by: string | null
+          effective_from: string
+          effective_to: string | null
+          id: string
+          policy_id: string
+          version: number
+        }
+        Insert: {
+          company_id: string
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string
+          effective_to?: string | null
+          id?: string
+          policy_id: string
+          version: number
+        }
+        Update: {
+          company_id?: string
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string
+          effective_to?: string | null
+          id?: string
+          policy_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_versions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_versions_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -276,6 +638,44 @@ export type Database = {
         }
         Relationships: []
       }
+      sequence_counters: {
+        Row: {
+          company_id: string
+          current_value: number
+          id: string
+          padding: number
+          prefix: string
+          scope_key: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          current_value?: number
+          id?: string
+          padding?: number
+          prefix?: string
+          scope_key: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          current_value?: number
+          id?: string
+          padding?: number
+          prefix?: string
+          scope_key?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sequence_counters_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       units: {
         Row: {
           code: string | null
@@ -319,6 +719,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_idempotency_key: {
+        Args: {
+          _company_id: string
+          _key: string
+          _operation: string
+          _request: Json
+          _response?: Json
+        }
+        Returns: Json
+      }
       has_permission: {
         Args: { _company_id: string; _permission: string; _user_id: string }
         Returns: boolean
@@ -329,7 +739,35 @@ export type Database = {
       }
       is_platform_admin: { Args: { _user_id: string }; Returns: boolean }
       is_user_active: { Args: { _user_id: string }; Returns: boolean }
+      log_audit_event: {
+        Args: {
+          _action: string
+          _after?: Json
+          _before?: Json
+          _company_id: string
+          _context?: Json
+          _correlation_id?: string
+          _object_id: string
+          _object_type: string
+        }
+        Returns: string
+      }
       my_company_ids: { Args: never; Returns: string[] }
+      next_sequence_value: {
+        Args: { _company_id: string; _prefix?: string; _scope_key: string }
+        Returns: string
+      }
+      notify_user: {
+        Args: {
+          _body?: string
+          _category?: string
+          _company_id: string
+          _payload?: Json
+          _title: string
+          _user_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       record_status: "active" | "inactive" | "suspended"
