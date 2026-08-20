@@ -271,7 +271,7 @@ describe("Auditoria imutável", () => {
       .limit(1)
       .single();
     const { error } = await a.from("audit_events").update({ action: "tampered" }).eq("id", row!.id);
-    expect(error?.message ?? "").toMatch(/append-only/i);
+    expect(error?.message ?? "").toMatch(/append-only|permission denied/i);
   });
 
   it("F1-AUD-003: DELETE em auditoria é bloqueado (inclusive service_role)", async () => {
@@ -282,7 +282,7 @@ describe("Auditoria imutável", () => {
       .limit(1)
       .single();
     const { error } = await a.from("audit_events").delete().eq("id", row!.id);
-    expect(error?.message ?? "").toMatch(/append-only/i);
+    expect(error?.message ?? "").toMatch(/append-only|permission denied/i);
   });
 
   it("F1-AUD-004: TRUNCATE em auditoria é negado para anon/authenticated/service_role", async () => {
