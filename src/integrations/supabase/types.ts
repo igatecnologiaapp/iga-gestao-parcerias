@@ -14,16 +14,326 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      companies: {
+        Row: {
+          created_at: string
+          id: string
+          legal_name: string | null
+          name: string
+          status: Database["public"]["Enums"]["record_status"]
+          tax_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          legal_name?: string | null
+          name: string
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          legal_name?: string | null
+          name?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      memberships: {
+        Row: {
+          company_id: string
+          created_at: string
+          default_unit_id: string | null
+          id: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          default_unit_id?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          default_unit_id?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memberships_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "memberships_default_unit_id_fkey"
+            columns: ["default_unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      permissions: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          module: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          module: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          module?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          is_active: boolean
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          is_active?: boolean
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          is_active?: boolean
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      role_assignments: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          granted_by: string | null
+          id: string
+          reason: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          role_id: string
+          scope: Database["public"]["Enums"]["role_scope"]
+          unit_id: string | null
+          updated_at: string
+          user_id: string
+          valid_from: string
+          valid_until: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          role_id: string
+          scope: Database["public"]["Enums"]["role_scope"]
+          unit_id?: string | null
+          updated_at?: string
+          user_id: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          role_id?: string
+          scope?: Database["public"]["Enums"]["role_scope"]
+          unit_id?: string | null
+          updated_at?: string
+          user_id?: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_assignments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "role_assignments_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "role_assignments_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      role_permissions: {
+        Row: {
+          created_at: string
+          permission_id: string
+          role_id: string
+        }
+        Insert: {
+          created_at?: string
+          permission_id: string
+          role_id: string
+        }
+        Update: {
+          created_at?: string
+          permission_id?: string
+          role_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_permissions_permission_id_fkey"
+            columns: ["permission_id"]
+            isOneToOne: false
+            referencedRelation: "permissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "role_permissions_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      roles: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          is_system: boolean
+          name: string
+          scope: Database["public"]["Enums"]["role_scope"]
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          name: string
+          scope: Database["public"]["Enums"]["role_scope"]
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          name?: string
+          scope?: Database["public"]["Enums"]["role_scope"]
+        }
+        Relationships: []
+      }
+      units: {
+        Row: {
+          code: string | null
+          company_id: string
+          created_at: string
+          id: string
+          name: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+        }
+        Insert: {
+          code?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          name: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Update: {
+          code?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "units_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_permission: {
+        Args: { _company_id: string; _permission: string; _user_id: string }
+        Returns: boolean
+      }
+      is_company_member: {
+        Args: { _company_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_platform_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_user_active: { Args: { _user_id: string }; Returns: boolean }
+      my_company_ids: { Args: never; Returns: string[] }
     }
     Enums: {
-      [_ in never]: never
+      record_status: "active" | "inactive" | "suspended"
+      role_scope: "platform" | "company" | "unit"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +460,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      record_status: ["active", "inactive", "suspended"],
+      role_scope: ["platform", "company", "unit"],
+    },
   },
 } as const
