@@ -77,11 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "IGA Network BR — Fundação, Segurança e Governança" },
+      {
+        name: "description",
+        content:
+          "Plataforma multiempresa com controle de acesso por papéis, isolamento de dados e trilha de auditoria imutável.",
+      },
+      { name: "author", content: "IGA Network BR" },
+      { property: "og:title", content: "IGA Network BR — Fundação, Segurança e Governança" },
+      {
+        property: "og:description",
+        content: "Controle de acesso por papéis, isolamento multiempresa e auditoria imutável.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
