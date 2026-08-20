@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAuditoriaRouteImport } from './routes/_authenticated/auditoria'
 import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedUsuariosRouteImport } from './routes/_authenticated/usuarios'
@@ -29,6 +30,11 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAuditoriaRoute = AuthenticatedAuditoriaRouteImport.update({
+  id: '/auditoria',
+  path: '/auditoria',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedEmpresasRoute = AuthenticatedEmpresasRouteImport.update({
   id: '/empresas',
@@ -49,6 +55,7 @@ const AuthenticatedUsuariosRoute = AuthenticatedUsuariosRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/auditoria': typeof AuthenticatedAuditoriaRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
@@ -56,6 +63,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/auditoria': typeof AuthenticatedAuditoriaRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
@@ -65,20 +73,23 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/auditoria': typeof AuthenticatedAuditoriaRoute
   '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/usuarios': typeof AuthenticatedUsuariosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/empresas' | '/painel' | '/usuarios'
+  fullPaths:
+    '/' | '/auth' | '/auditoria' | '/empresas' | '/painel' | '/usuarios'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/empresas' | '/painel' | '/usuarios'
+  to: '/' | '/auth' | '/auditoria' | '/empresas' | '/painel' | '/usuarios'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/auditoria'
     | '/_authenticated/empresas'
     | '/_authenticated/painel'
     | '/_authenticated/usuarios'
@@ -113,6 +124,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/auditoria': {
+      id: '/_authenticated/auditoria'
+      path: '/auditoria'
+      fullPath: '/auditoria'
+      preLoaderRoute: typeof AuthenticatedAuditoriaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/empresas': {
       id: '/_authenticated/empresas'
       path: '/empresas'
@@ -138,12 +156,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAuditoriaRoute: typeof AuthenticatedAuditoriaRoute
   AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedUsuariosRoute: typeof AuthenticatedUsuariosRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAuditoriaRoute: AuthenticatedAuditoriaRoute,
   AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedUsuariosRoute: AuthenticatedUsuariosRoute,
