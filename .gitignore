@@ -30,3 +30,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Segredos / ambiente local (F1-SEC-001)
+.env
+.env.*
+!.env.example
+
+# Evidencias geradas pelos testes
+tests/**/evidencias/
