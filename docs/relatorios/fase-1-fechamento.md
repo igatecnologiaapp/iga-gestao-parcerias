@@ -167,7 +167,6 @@ Execução: 2026-08-20 — **44 testes, 44 aprovados, 0 falhas** (`npm run test:
 | # | Item | Severidade | Situação |
 | --- | --- | --- | --- |
 | 1 | ~~Remoção de `.env` do índice do Git e rotação preventiva das chaves publicáveis~~ | — | **ENCERRADO em 2026-08-21** — arquivo removido do versionamento; rotação avaliada como não necessária (chave publicável) |
-
 | 2 | Funções `SECURITY DEFINER` executáveis por usuários autenticados (9 avisos do linter) | Baixa — aceito | Decisão de projeto: são o ponto de entrada da autorização e validam `auth.uid()`/permissão internamente; `EXECUTE` revogado de `PUBLIC`/`anon` |
 | 3 | Auditoria cresce indefinidamente (append-only, sem particionamento/retenção) | Média | Definir política de retenção/arquivamento antes do volume de produção |
 | 4 | Linhas de auditoria geradas pelos testes não são removíveis (por design) | Baixa | Recomenda-se executar a bateria fora do ambiente de produção |
