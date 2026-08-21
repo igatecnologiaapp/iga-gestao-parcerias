@@ -59,18 +59,30 @@ carimbos `created_at`/`updated_at` com gatilho de atualização.
 
 ## 3. Correções desta rodada
 
-### F1-SEC-001 — Arquivo `.env` versionado
+### F1-SEC-001 — Arquivo `.env` versionado — **ENCERRADO** (saneamento de 2026-08-21)
 
-- `.env` e `.env.*` adicionados ao `.gitignore` (com exceção `!.env.example`).
-- Criado `.env.example` com chaves de exemplo e separação explícita entre variáveis de
+- `.env` e `.env.*` no `.gitignore`, com exceção `!.env.example` (mantidos, sem alteração).
+- `.env.example` permanece versionado, com separação explícita entre variáveis de
   cliente (publicáveis) e de servidor (secretas).
-- Varredura do repositório por segredos (`sb_secret_*`, JWTs `eyJhbGciOi…`, chaves privadas,
-  atribuições de `SERVICE_ROLE_KEY`): **nenhuma ocorrência real** — as únicas correspondências
-  são comparações de prefixo em `src/integrations/supabase/*`, sem valor sensível.
-- Segredos de servidor permanecem exclusivamente no cofre gerenciado do backend.
-- **Ação pendente do responsável pelo repositório:** o arquivo já rastreado deve ser removido do
-  índice (`git rm --cached .env`) e, por ter estado versionado, as chaves publicáveis devem ser
-  rotacionadas por precaução. O agente não executa comandos de estado do Git.
+- **Remoção do versionamento:** o arquivo `.env` foi removido da árvore do projeto nesta rodada;
+  a mudança é registrada como exclusão do arquivo no commit de saneamento desta solicitação
+  (equivalente funcional de `git rm --cached .env` seguido de commit), sem qualquer reescrita
+  destrutiva do histórico. Após a remoção, `.env` não consta mais na árvore versionada do `main`.
+- **Continuidade operacional verificada:** as variáveis de ambiente passam a ser fornecidas
+  exclusivamente pelos mecanismos gerenciados da plataforma. Servidor reiniciado sem o arquivo:
+  `/` e `/auth` respondem `200`, sem erros de console e com o cliente do backend operacional.
+- **Verificação final de segredos:** nova varredura por `sb_secret_*`, JWTs (`eyJhbGciOi…`),
+  blocos `BEGIN … PRIVATE KEY` e atribuições de `SERVICE_ROLE_KEY` em todo o repositório
+  (incluindo arquivos ocultos): **nenhum segredo sensível versionado**. As únicas correspondências
+  são comparações de prefixo em `src/integrations/supabase/*`, sem valor embutido.
+  Nenhuma `SUPABASE_SERVICE_ROLE_KEY`, senha, token privado ou credencial crítica esteve
+  presente no arquivo removido — apenas URL do projeto, `PROJECT_ID` e chave **publicável**.
+- **Rotação preventiva da chave publicável: não necessária** (recomendação registrada).
+  Justificativa: a chave `sb_publishable_*` é, por definição, destinada à exposição no navegador
+  e é servida no bundle do cliente em qualquer build; o acesso continua controlado por RLS e pelas
+  funções `SECURITY DEFINER`. Sua presença anterior no repositório não amplia a superfície de
+  ataque. A rotação permanece disponível na plataforma caso a auditoria a exija formalmente.
+
 
 ### F1-TEST-001 — Bateria de testes e evidências
 
@@ -154,7 +166,7 @@ Execução: 2026-08-20 — **44 testes, 44 aprovados, 0 falhas** (`npm run test:
 
 | # | Item | Severidade | Situação |
 | --- | --- | --- | --- |
-| 1 | Remoção de `.env` do índice do Git e rotação preventiva das chaves publicáveis | Alta | **Pendente — ação humana** (o agente não executa comandos de estado do Git) |
+| 1 | ~~Remoção de `.env` do índice do Git e rotação preventiva das chaves publicáveis~~ | — | **ENCERRADO em 2026-08-21** — arquivo removido do versionamento; rotação avaliada como não necessária (chave publicável) |
 | 2 | Funções `SECURITY DEFINER` executáveis por usuários autenticados (9 avisos do linter) | Baixa — aceito | Decisão de projeto: são o ponto de entrada da autorização e validam `auth.uid()`/permissão internamente; `EXECUTE` revogado de `PUBLIC`/`anon` |
 | 3 | Auditoria cresce indefinidamente (append-only, sem particionamento/retenção) | Média | Definir política de retenção/arquivamento antes do volume de produção |
 | 4 | Linhas de auditoria geradas pelos testes não são removíveis (por design) | Baixa | Recomenda-se executar a bateria fora do ambiente de produção |
