@@ -170,6 +170,213 @@ export type Database = {
           },
         ]
       }
+      candidate_evaluations: {
+        Row: {
+          candidate_id: string
+          company_id: string
+          created_at: string
+          criteria: Json
+          decision: string
+          evaluated_at: string
+          evaluator_id: string
+          id: string
+          notes: string | null
+          stage: Database["public"]["Enums"]["candidate_status"]
+        }
+        Insert: {
+          candidate_id: string
+          company_id: string
+          created_at?: string
+          criteria?: Json
+          decision: string
+          evaluated_at?: string
+          evaluator_id: string
+          id?: string
+          notes?: string | null
+          stage: Database["public"]["Enums"]["candidate_status"]
+        }
+        Update: {
+          candidate_id?: string
+          company_id?: string
+          created_at?: string
+          criteria?: Json
+          decision?: string
+          evaluated_at?: string
+          evaluator_id?: string
+          id?: string
+          notes?: string | null
+          stage?: Database["public"]["Enums"]["candidate_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "candidate_evaluations_candidate_id_fkey"
+            columns: ["candidate_id"]
+            isOneToOne: false
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "candidate_evaluations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      candidate_stage_events: {
+        Row: {
+          actor_id: string | null
+          candidate_id: string
+          company_id: string
+          created_at: string
+          from_status: Database["public"]["Enums"]["candidate_status"] | null
+          id: string
+          reason: string | null
+          to_status: Database["public"]["Enums"]["candidate_status"]
+        }
+        Insert: {
+          actor_id?: string | null
+          candidate_id: string
+          company_id: string
+          created_at?: string
+          from_status?: Database["public"]["Enums"]["candidate_status"] | null
+          id?: string
+          reason?: string | null
+          to_status: Database["public"]["Enums"]["candidate_status"]
+        }
+        Update: {
+          actor_id?: string | null
+          candidate_id?: string
+          company_id?: string
+          created_at?: string
+          from_status?: Database["public"]["Enums"]["candidate_status"] | null
+          id?: string
+          reason?: string | null
+          to_status?: Database["public"]["Enums"]["candidate_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "candidate_stage_events_candidate_id_fkey"
+            columns: ["candidate_id"]
+            isOneToOne: false
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "candidate_stage_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      candidates: {
+        Row: {
+          applied_at: string
+          approach: string | null
+          approved_at: string | null
+          campaign: string | null
+          city: string | null
+          closed_at: string | null
+          code: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          document: string | null
+          email: string | null
+          experience: string | null
+          full_name: string
+          id: string
+          metadata: Json
+          notes: string | null
+          owner_id: string | null
+          phone: string | null
+          referral: string | null
+          source_channel: string | null
+          state: string | null
+          status: Database["public"]["Enums"]["candidate_status"]
+          status_changed_at: string
+          unit_id: string | null
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          applied_at?: string
+          approach?: string | null
+          approved_at?: string | null
+          campaign?: string | null
+          city?: string | null
+          closed_at?: string | null
+          code?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          document?: string | null
+          email?: string | null
+          experience?: string | null
+          full_name: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          referral?: string | null
+          source_channel?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["candidate_status"]
+          status_changed_at?: string
+          unit_id?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          applied_at?: string
+          approach?: string | null
+          approved_at?: string | null
+          campaign?: string | null
+          city?: string | null
+          closed_at?: string | null
+          code?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          document?: string | null
+          email?: string | null
+          experience?: string | null
+          full_name?: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          referral?: string | null
+          source_channel?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["candidate_status"]
+          status_changed_at?: string
+          unit_id?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "candidates_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "candidates_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           created_at: string
@@ -364,6 +571,765 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboarding_checklist_items: {
+        Row: {
+          category: string
+          checklist_id: string
+          code: string
+          company_id: string
+          created_at: string
+          id: string
+          label: string
+          requires_evidence: boolean
+          sort_order: number
+        }
+        Insert: {
+          category?: string
+          checklist_id: string
+          code: string
+          company_id: string
+          created_at?: string
+          id?: string
+          label: string
+          requires_evidence?: boolean
+          sort_order?: number
+        }
+        Update: {
+          category?: string
+          checklist_id?: string
+          code?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          label?: string
+          requires_evidence?: boolean
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_checklist_items_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "onboarding_checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "onboarding_checklist_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboarding_checklists: {
+        Row: {
+          code: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          name: string
+          version: number
+        }
+        Insert: {
+          code: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          version?: number
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_checklists_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_certifications: {
+        Row: {
+          company_id: string
+          competency: string
+          created_at: string
+          id: string
+          issued_at: string | null
+          notes: string | null
+          partner_id: string
+          responsible_id: string | null
+          result: string | null
+          status: Database["public"]["Enums"]["certification_status"]
+          supersedes_id: string | null
+          type: string
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          company_id: string
+          competency: string
+          created_at?: string
+          id?: string
+          issued_at?: string | null
+          notes?: string | null
+          partner_id: string
+          responsible_id?: string | null
+          result?: string | null
+          status?: Database["public"]["Enums"]["certification_status"]
+          supersedes_id?: string | null
+          type: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          company_id?: string
+          competency?: string
+          created_at?: string
+          id?: string
+          issued_at?: string | null
+          notes?: string | null
+          partner_id?: string
+          responsible_id?: string | null
+          result?: string | null
+          status?: Database["public"]["Enums"]["certification_status"]
+          supersedes_id?: string | null
+          type?: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_certifications_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_certifications_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_certifications_supersedes_id_fkey"
+            columns: ["supersedes_id"]
+            isOneToOne: false
+            referencedRelation: "partner_certifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_followups: {
+        Row: {
+          activities: string | null
+          company_id: string
+          created_at: string
+          day_offset: number | null
+          difficulties: string | null
+          evolution: string | null
+          id: string
+          milestone: string
+          notes: string | null
+          occurred_at: string
+          partner_id: string
+          pending_trainings: string | null
+          responsible_id: string | null
+          support_needed: string | null
+        }
+        Insert: {
+          activities?: string | null
+          company_id: string
+          created_at?: string
+          day_offset?: number | null
+          difficulties?: string | null
+          evolution?: string | null
+          id?: string
+          milestone: string
+          notes?: string | null
+          occurred_at?: string
+          partner_id: string
+          pending_trainings?: string | null
+          responsible_id?: string | null
+          support_needed?: string | null
+        }
+        Update: {
+          activities?: string | null
+          company_id?: string
+          created_at?: string
+          day_offset?: number | null
+          difficulties?: string | null
+          evolution?: string | null
+          id?: string
+          milestone?: string
+          notes?: string | null
+          occurred_at?: string
+          partner_id?: string
+          pending_trainings?: string | null
+          responsible_id?: string | null
+          support_needed?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_followups_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_followups_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_onboarding_items: {
+        Row: {
+          category: string
+          checklist_id: string | null
+          company_id: string
+          completed_at: string | null
+          created_at: string
+          evidence_attachment_id: string | null
+          id: string
+          item_code: string
+          label: string
+          notes: string | null
+          partner_id: string
+          responsible_id: string | null
+          status: Database["public"]["Enums"]["checklist_item_status"]
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          checklist_id?: string | null
+          company_id: string
+          completed_at?: string | null
+          created_at?: string
+          evidence_attachment_id?: string | null
+          id?: string
+          item_code: string
+          label: string
+          notes?: string | null
+          partner_id: string
+          responsible_id?: string | null
+          status?: Database["public"]["Enums"]["checklist_item_status"]
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          checklist_id?: string | null
+          company_id?: string
+          completed_at?: string | null
+          created_at?: string
+          evidence_attachment_id?: string | null
+          id?: string
+          item_code?: string
+          label?: string
+          notes?: string | null
+          partner_id?: string
+          responsible_id?: string | null
+          status?: Database["public"]["Enums"]["checklist_item_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_onboarding_items_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "onboarding_checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_onboarding_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_onboarding_items_evidence_attachment_id_fkey"
+            columns: ["evidence_attachment_id"]
+            isOneToOne: false
+            referencedRelation: "attachments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_onboarding_items_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_policy_acceptances: {
+        Row: {
+          accepted_at: string
+          accepted_by: string
+          company_id: string
+          context: Json
+          created_at: string
+          evidence_attachment_id: string | null
+          id: string
+          partner_id: string
+          policy_id: string
+          policy_version_id: string
+        }
+        Insert: {
+          accepted_at?: string
+          accepted_by: string
+          company_id: string
+          context?: Json
+          created_at?: string
+          evidence_attachment_id?: string | null
+          id?: string
+          partner_id: string
+          policy_id: string
+          policy_version_id: string
+        }
+        Update: {
+          accepted_at?: string
+          accepted_by?: string
+          company_id?: string
+          context?: Json
+          created_at?: string
+          evidence_attachment_id?: string | null
+          id?: string
+          partner_id?: string
+          policy_id?: string
+          policy_version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_policy_acceptances_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_policy_acceptances_evidence_attachment_id_fkey"
+            columns: ["evidence_attachment_id"]
+            isOneToOne: false
+            referencedRelation: "attachments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_policy_acceptances_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_policy_acceptances_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_policy_acceptances_policy_version_id_fkey"
+            columns: ["policy_version_id"]
+            isOneToOne: false
+            referencedRelation: "policy_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_territories: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          mode: Database["public"]["Enums"]["territory_mode"]
+          partner_id: string
+          reason: string | null
+          status: Database["public"]["Enums"]["partner_territory_status"]
+          territory_id: string
+          updated_at: string
+          valid_from: string
+          valid_until: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          mode?: Database["public"]["Enums"]["territory_mode"]
+          partner_id: string
+          reason?: string | null
+          status?: Database["public"]["Enums"]["partner_territory_status"]
+          territory_id: string
+          updated_at?: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          mode?: Database["public"]["Enums"]["territory_mode"]
+          partner_id?: string
+          reason?: string | null
+          status?: Database["public"]["Enums"]["partner_territory_status"]
+          territory_id?: string
+          updated_at?: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_territories_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_territories_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_territories_territory_id_fkey"
+            columns: ["territory_id"]
+            isOneToOne: false
+            referencedRelation: "territories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_trainings: {
+        Row: {
+          company_id: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          module_id: string | null
+          notes: string | null
+          partner_id: string
+          responsible_id: string | null
+          result: string | null
+          score: number | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["training_status"]
+          track_id: string
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          company_id: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          module_id?: string | null
+          notes?: string | null
+          partner_id: string
+          responsible_id?: string | null
+          result?: string | null
+          score?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["training_status"]
+          track_id: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          company_id?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          module_id?: string | null
+          notes?: string | null
+          partner_id?: string
+          responsible_id?: string | null
+          result?: string | null
+          score?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["training_status"]
+          track_id?: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_trainings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_trainings_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "training_modules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_trainings_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_trainings_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "training_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partners: {
+        Row: {
+          activated_at: string | null
+          candidate_id: string | null
+          city: string | null
+          code: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          display_name: string
+          document: string | null
+          email: string | null
+          exited_at: string | null
+          id: string
+          metadata: Json
+          owner_id: string | null
+          phone: string | null
+          source_channel: string | null
+          state: string | null
+          status: Database["public"]["Enums"]["partner_status"]
+          status_changed_at: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          activated_at?: string | null
+          candidate_id?: string | null
+          city?: string | null
+          code: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          display_name: string
+          document?: string | null
+          email?: string | null
+          exited_at?: string | null
+          id?: string
+          metadata?: Json
+          owner_id?: string | null
+          phone?: string | null
+          source_channel?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["partner_status"]
+          status_changed_at?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          activated_at?: string | null
+          candidate_id?: string | null
+          city?: string | null
+          code?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          display_name?: string
+          document?: string | null
+          email?: string | null
+          exited_at?: string | null
+          id?: string
+          metadata?: Json
+          owner_id?: string | null
+          phone?: string | null
+          source_channel?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["partner_status"]
+          status_changed_at?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partners_candidate_id_fkey"
+            columns: ["candidate_id"]
+            isOneToOne: true
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partners_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payee_profile_events: {
+        Row: {
+          actor_id: string | null
+          changed_fields: string[]
+          company_id: string
+          created_at: string
+          event: string
+          id: string
+          partner_id: string
+          payee_profile_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          changed_fields?: string[]
+          company_id: string
+          created_at?: string
+          event: string
+          id?: string
+          partner_id: string
+          payee_profile_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          changed_fields?: string[]
+          company_id?: string
+          created_at?: string
+          event?: string
+          id?: string
+          partner_id?: string
+          payee_profile_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payee_profile_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payee_profile_events_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payee_profile_events_payee_profile_id_fkey"
+            columns: ["payee_profile_id"]
+            isOneToOne: false
+            referencedRelation: "payee_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payee_profiles: {
+        Row: {
+          bank_account: string | null
+          bank_branch: string | null
+          bank_code: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          holder_document: string
+          holder_name: string
+          id: string
+          ownership_validated: boolean
+          partner_id: string
+          payee_type: string
+          pix_key: string | null
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          validated_at: string | null
+          validated_by: string | null
+        }
+        Insert: {
+          bank_account?: string | null
+          bank_branch?: string | null
+          bank_code?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          holder_document: string
+          holder_name: string
+          id?: string
+          ownership_validated?: boolean
+          partner_id: string
+          payee_type?: string
+          pix_key?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          validated_at?: string | null
+          validated_by?: string | null
+        }
+        Update: {
+          bank_account?: string | null
+          bank_branch?: string | null
+          bank_code?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          holder_document?: string
+          holder_name?: string
+          id?: string
+          ownership_validated?: boolean
+          partner_id?: string
+          payee_type?: string
+          pix_key?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          validated_at?: string | null
+          validated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payee_profiles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payee_profiles_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: true
+            referencedRelation: "partners"
             referencedColumns: ["id"]
           },
         ]
@@ -676,6 +1642,163 @@ export type Database = {
           },
         ]
       }
+      territories: {
+        Row: {
+          code: string
+          company_id: string
+          coverage: Json
+          created_at: string
+          created_by: string | null
+          default_mode: Database["public"]["Enums"]["territory_mode"]
+          id: string
+          name: string
+          notes: string | null
+          owner_id: string | null
+          scope_type: Database["public"]["Enums"]["territory_scope_type"]
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          valid_from: string
+          valid_until: string | null
+        }
+        Insert: {
+          code: string
+          company_id: string
+          coverage?: Json
+          created_at?: string
+          created_by?: string | null
+          default_mode?: Database["public"]["Enums"]["territory_mode"]
+          id?: string
+          name: string
+          notes?: string | null
+          owner_id?: string | null
+          scope_type?: Database["public"]["Enums"]["territory_scope_type"]
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          coverage?: Json
+          created_at?: string
+          created_by?: string | null
+          default_mode?: Database["public"]["Enums"]["territory_mode"]
+          id?: string
+          name?: string
+          notes?: string | null
+          owner_id?: string | null
+          scope_type?: Database["public"]["Enums"]["territory_scope_type"]
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "territories_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_modules: {
+        Row: {
+          code: string
+          company_id: string
+          content_url: string | null
+          created_at: string
+          id: string
+          name: string
+          sort_order: number
+          track_id: string
+        }
+        Insert: {
+          code: string
+          company_id: string
+          content_url?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          sort_order?: number
+          track_id: string
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          content_url?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          sort_order?: number
+          track_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_modules_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_modules_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "training_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_tracks: {
+        Row: {
+          code: string
+          company_id: string
+          created_at: string
+          description: string | null
+          id: string
+          is_required: boolean
+          name: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          validity_months: number | null
+        }
+        Insert: {
+          code: string
+          company_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_required?: boolean
+          name: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          validity_months?: number | null
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_required?: boolean
+          name?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          validity_months?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_tracks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       units: {
         Row: {
           code: string | null
@@ -719,6 +1842,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_policy_version: {
+        Args: {
+          _context?: Json
+          _idempotency_key?: string
+          _partner_id: string
+          _policy_version_id: string
+        }
+        Returns: Json
+      }
+      assign_partner_territory: {
+        Args: {
+          _idempotency_key: string
+          _mode: Database["public"]["Enums"]["territory_mode"]
+          _partner_id: string
+          _reason: string
+          _territory_id: string
+          _valid_until: string
+        }
+        Returns: Json
+      }
+      candidate_transition_allowed: {
+        Args: {
+          _from: Database["public"]["Enums"]["candidate_status"]
+          _to: Database["public"]["Enums"]["candidate_status"]
+        }
+        Returns: boolean
+      }
       claim_idempotency_key: {
         Args: {
           _company_id: string
@@ -729,6 +1879,15 @@ export type Database = {
         }
         Returns: Json
       }
+      convert_candidate_to_partner: {
+        Args: {
+          _candidate_id: string
+          _checklist_code?: string
+          _idempotency_key: string
+        }
+        Returns: Json
+      }
+      get_payee_profile_masked: { Args: { _partner_id: string }; Returns: Json }
       has_permission: {
         Args: { _company_id: string; _permission: string; _user_id: string }
         Returns: boolean
@@ -752,7 +1911,13 @@ export type Database = {
         }
         Returns: string
       }
+      log_payee_view: { Args: { _partner_id: string }; Returns: undefined }
+      mask_tail: {
+        Args: { _value: string; _visible?: number }
+        Returns: string
+      }
       my_company_ids: { Args: never; Returns: string[] }
+      my_partner_ids: { Args: never; Returns: string[] }
       next_sequence_value: {
         Args: { _company_id: string; _prefix?: string; _scope_key: string }
         Returns: string
@@ -770,8 +1935,53 @@ export type Database = {
       }
     }
     Enums: {
+      candidate_status:
+        | "prospect"
+        | "triage"
+        | "prequalified"
+        | "interview"
+        | "approved"
+        | "formalization"
+        | "onboarding"
+        | "training"
+        | "certification"
+        | "activation"
+        | "rejected"
+        | "withdrawn"
+        | "suspended"
+        | "archived"
+      certification_status:
+        | "pending"
+        | "approved"
+        | "failed"
+        | "expired"
+        | "revoked"
+      checklist_item_status:
+        | "pending"
+        | "in_progress"
+        | "done"
+        | "waived"
+        | "blocked"
+      partner_status:
+        | "onboarding"
+        | "training"
+        | "certification_pending"
+        | "active"
+        | "attention"
+        | "suspended"
+        | "inactive"
+        | "exit"
+      partner_territory_status: "pending" | "active" | "revoked" | "expired"
       record_status: "active" | "inactive" | "suspended"
       role_scope: "platform" | "company" | "unit"
+      territory_mode: "open" | "recommended_base" | "preferred" | "protected"
+      territory_scope_type: "country" | "state" | "city" | "region" | "custom"
+      training_status:
+        | "not_started"
+        | "in_progress"
+        | "completed"
+        | "failed"
+        | "expired"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -899,8 +2109,58 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      candidate_status: [
+        "prospect",
+        "triage",
+        "prequalified",
+        "interview",
+        "approved",
+        "formalization",
+        "onboarding",
+        "training",
+        "certification",
+        "activation",
+        "rejected",
+        "withdrawn",
+        "suspended",
+        "archived",
+      ],
+      certification_status: [
+        "pending",
+        "approved",
+        "failed",
+        "expired",
+        "revoked",
+      ],
+      checklist_item_status: [
+        "pending",
+        "in_progress",
+        "done",
+        "waived",
+        "blocked",
+      ],
+      partner_status: [
+        "onboarding",
+        "training",
+        "certification_pending",
+        "active",
+        "attention",
+        "suspended",
+        "inactive",
+        "exit",
+      ],
+      partner_territory_status: ["pending", "active", "revoked", "expired"],
       record_status: ["active", "inactive", "suspended"],
       role_scope: ["platform", "company", "unit"],
+      territory_mode: ["open", "recommended_base", "preferred", "protected"],
+      territory_scope_type: ["country", "state", "city", "region", "custom"],
+      training_status: [
+        "not_started",
+        "in_progress",
+        "completed",
+        "failed",
+        "expired",
+      ],
     },
   },
 } as const
