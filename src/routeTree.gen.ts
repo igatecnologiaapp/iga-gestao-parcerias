@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAuditoriaRouteImport } from './routes/_authenticated/auditoria'
+import { Route as AuthenticatedCandidatosRouteImport } from './routes/_authenticated/candidatos'
 import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
 import { Route as AuthenticatedGovernancaRouteImport } from './routes/_authenticated/governanca'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
@@ -35,6 +36,11 @@ const AuthRoute = AuthRouteImport.update({
 const AuthenticatedAuditoriaRoute = AuthenticatedAuditoriaRouteImport.update({
   id: '/auditoria',
   path: '/auditoria',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCandidatosRoute = AuthenticatedCandidatosRouteImport.update({
+  id: '/candidatos',
+  path: '/candidatos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedEmpresasRoute = AuthenticatedEmpresasRouteImport.update({
@@ -62,6 +68,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/auditoria': typeof AuthenticatedAuditoriaRoute
+  '/candidatos': typeof AuthenticatedCandidatosRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/governanca': typeof AuthenticatedGovernancaRoute
   '/painel': typeof AuthenticatedPainelRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/auditoria': typeof AuthenticatedAuditoriaRoute
+  '/candidatos': typeof AuthenticatedCandidatosRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/governanca': typeof AuthenticatedGovernancaRoute
   '/painel': typeof AuthenticatedPainelRoute
@@ -82,6 +90,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/auditoria': typeof AuthenticatedAuditoriaRoute
+  '/_authenticated/candidatos': typeof AuthenticatedCandidatosRoute
   '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
   '/_authenticated/governanca': typeof AuthenticatedGovernancaRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
@@ -93,6 +102,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/auditoria'
+    | '/candidatos'
     | '/empresas'
     | '/governanca'
     | '/painel'
@@ -102,6 +112,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/auditoria'
+    | '/candidatos'
     | '/empresas'
     | '/governanca'
     | '/painel'
@@ -112,6 +123,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/auditoria'
+    | '/_authenticated/candidatos'
     | '/_authenticated/empresas'
     | '/_authenticated/governanca'
     | '/_authenticated/painel'
@@ -154,6 +166,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAuditoriaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/candidatos': {
+      id: '/_authenticated/candidatos'
+      path: '/candidatos'
+      fullPath: '/candidatos'
+      preLoaderRoute: typeof AuthenticatedCandidatosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/empresas': {
       id: '/_authenticated/empresas'
       path: '/empresas'
@@ -187,6 +206,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAuditoriaRoute: typeof AuthenticatedAuditoriaRoute
+  AuthenticatedCandidatosRoute: typeof AuthenticatedCandidatosRoute
   AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
   AuthenticatedGovernancaRoute: typeof AuthenticatedGovernancaRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
@@ -195,6 +215,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAuditoriaRoute: AuthenticatedAuditoriaRoute,
+  AuthenticatedCandidatosRoute: AuthenticatedCandidatosRoute,
   AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
   AuthenticatedGovernancaRoute: AuthenticatedGovernancaRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
