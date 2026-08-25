@@ -320,8 +320,7 @@ export const updatePartnerStatus = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ context, data }) => {
-    const patch: Record<string, unknown> = { status: data.status };
-    if (data.reason) patch.metadata = undefined; // motivo vai para auditoria via trigger
+    // O motivo é registrado na trilha de auditoria pelo gatilho da tabela.
     const { error } = await context.supabase
       .from("partners")
       .update({ status: data.status })
@@ -803,11 +802,11 @@ export const getMaskedPayee = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ partnerId: z.string().uuid() }).parse(d))
   .handler(async ({ context, data }) => {
-    const { data, error } = await context.supabase.rpc("get_payee_profile_masked", {
+    const { data: masked, error } = await context.supabase.rpc("get_payee_profile_masked", {
       _partner_id: data.partnerId,
     });
     if (error) throw new Error(error.message);
-    return (data as Record<string, unknown> | null) ?? null;
+    return (masked as Record<string, unknown> | null) ?? null;
   });
 
 // ============ PAINEL DO PRÓPRIO PARCEIRO ============
