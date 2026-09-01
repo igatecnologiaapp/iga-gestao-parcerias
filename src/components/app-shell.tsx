@@ -3,10 +3,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
   FileClock,
+  Handshake,
   LayoutDashboard,
   LogOut,
+  MapPin,
   ScrollText,
   ShieldCheck,
+  UserSearch,
   Users,
 } from "lucide-react";
 import type { ReactNode } from "react";
@@ -17,6 +20,9 @@ import { useMyContext } from "@/hooks/use-foundation";
 
 const NAV = [
   { to: "/painel", label: "Painel", icon: LayoutDashboard },
+  { to: "/candidatos", label: "Recrutamento", icon: UserSearch },
+  { to: "/parceiros", label: "Parceiros", icon: Handshake },
+  { to: "/territorios", label: "Territórios", icon: MapPin },
   { to: "/empresas", label: "Empresas e unidades", icon: Building2 },
   { to: "/usuarios", label: "Usuários e papéis", icon: Users },
   { to: "/auditoria", label: "Auditoria", icon: FileClock },
