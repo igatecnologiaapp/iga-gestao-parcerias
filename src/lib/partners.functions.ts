@@ -420,7 +420,7 @@ export const updateOnboardingItem = createServerFn({ method: "POST" })
       .from("partner_onboarding_items")
       .update({
         status: data.status,
-        notes: data.notes ?? undefined,
+        notes: data.notes ?? null,
         responsible_id: context.userId,
         completed_at: data.status === "done" ? new Date().toISOString() : null,
       })
@@ -524,15 +524,16 @@ export const updatePartnerTraining = createServerFn({ method: "POST" })
       .is("module_id", null)
       .maybeSingle();
 
-    const payload: Record<string, unknown> = {
+    const now = new Date().toISOString();
+    const payload = {
       status: data.status,
       result: data.result || null,
       score: data.score ?? null,
       notes: data.notes || null,
       responsible_id: userId,
+      ...(data.status === "in_progress" ? { started_at: now } : {}),
+      ...(data.status === "completed" ? { completed_at: now } : {}),
     };
-    if (data.status === "in_progress") payload.started_at = new Date().toISOString();
-    if (data.status === "completed") payload.completed_at = new Date().toISOString();
 
     if (existing) {
       const { error } = await supabase.from("partner_trainings").update(payload).eq("id", existing.id);
@@ -574,7 +575,7 @@ export const upsertCertification = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     const { supabase, userId } = context;
-    const payload: Record<string, unknown> = {
+    const payload = {
       type: data.type,
       competency: data.competency,
       status: data.status,
@@ -582,8 +583,8 @@ export const upsertCertification = createServerFn({ method: "POST" })
       valid_until: data.validUntil || null,
       notes: data.notes || null,
       responsible_id: userId,
+      ...(data.status === "approved" ? { issued_at: new Date().toISOString() } : {}),
     };
-    if (data.status === "approved") payload.issued_at = new Date().toISOString();
 
     if (data.certificationId) {
       const { error } = await supabase
