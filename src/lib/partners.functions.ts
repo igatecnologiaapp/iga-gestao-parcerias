@@ -150,15 +150,16 @@ export const updateCandidateData = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     const { candidateId, ...rest } = data;
-    const patch: Record<string, string | null> = {};
-    if (rest.document !== undefined) patch.document = rest.document || null;
-    if (rest.experience !== undefined) patch.experience = rest.experience || null;
-    if (rest.notes !== undefined) patch.notes = rest.notes || null;
-    if (rest.email !== undefined) patch.email = rest.email || null;
-    if (rest.phone !== undefined) patch.phone = rest.phone || null;
-    if (rest.whatsapp !== undefined) patch.whatsapp = rest.whatsapp || null;
-    if (rest.city !== undefined) patch.city = rest.city || null;
-    if (rest.state !== undefined) patch.state = rest.state?.toUpperCase() || null;
+    const patch = {
+      ...(rest.document !== undefined ? { document: rest.document || null } : {}),
+      ...(rest.experience !== undefined ? { experience: rest.experience || null } : {}),
+      ...(rest.notes !== undefined ? { notes: rest.notes || null } : {}),
+      ...(rest.email !== undefined ? { email: rest.email || null } : {}),
+      ...(rest.phone !== undefined ? { phone: rest.phone || null } : {}),
+      ...(rest.whatsapp !== undefined ? { whatsapp: rest.whatsapp || null } : {}),
+      ...(rest.city !== undefined ? { city: rest.city || null } : {}),
+      ...(rest.state !== undefined ? { state: rest.state?.toUpperCase() || null } : {}),
+    };
     const { error } = await context.supabase.from("candidates").update(patch).eq("id", candidateId);
     if (error) throw new Error(error.message);
     return { ok: true };
