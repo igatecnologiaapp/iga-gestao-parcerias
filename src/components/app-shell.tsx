@@ -3,10 +3,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
   FileClock,
+  Handshake,
   LayoutDashboard,
   LogOut,
+  MapPin,
   ScrollText,
   ShieldCheck,
+  UserSearch,
   Users,
 } from "lucide-react";
 import type { ReactNode } from "react";
@@ -17,6 +20,9 @@ import { useMyContext } from "@/hooks/use-foundation";
 
 const NAV = [
   { to: "/painel", label: "Painel", icon: LayoutDashboard },
+  { to: "/candidatos", label: "Recrutamento", icon: UserSearch },
+  { to: "/parceiros", label: "Parceiros", icon: Handshake },
+  { to: "/territorios", label: "Territórios", icon: MapPin },
   { to: "/empresas", label: "Empresas e unidades", icon: Building2 },
   { to: "/usuarios", label: "Usuários e papéis", icon: Users },
   { to: "/auditoria", label: "Auditoria", icon: FileClock },
@@ -44,7 +50,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <ShieldCheck className="h-6 w-6 text-sidebar-primary" />
             <div>
               <p className="text-sm font-semibold tracking-tight">IGA Network BR</p>
-              <p className="text-xs text-sidebar-foreground/60">Fase 1 — Fundação</p>
+              <p className="text-xs text-sidebar-foreground/60">Fase 2 — Parcerias</p>
             </div>
           </div>
           <nav className="space-y-1">

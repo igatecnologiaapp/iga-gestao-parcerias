@@ -293,7 +293,7 @@ function ParceiroDetalhe({
                       <p className="text-sm font-medium">{i.label}</p>
                       <p className="text-xs text-muted-foreground">
                         {i.category}
-                        {i.requires_evidence ? " · exige evidência" : ""}
+                        {(i as { requires_evidence?: boolean }).requires_evidence ? " · exige evidência" : ""}
                       </p>
                     </div>
                     {canManage ? (
@@ -758,8 +758,8 @@ function NovoAcompanhamento({
             await onSubmit({
               milestone,
               ...(Number.isFinite(n) && n >= 0 && n <= 90 ? { dayOffset: n } : {}),
-              evolution: evolution || undefined,
-              difficulties: difficulties || undefined,
+              ...(evolution ? { evolution } : {}),
+              ...(difficulties ? { difficulties } : {}),
             });
             setEvolution("");
             setDifficulties("");

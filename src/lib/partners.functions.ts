@@ -8,6 +8,8 @@ import { z } from "zod";
  * O front nunca decide acesso sozinho.
  */
 
+export type PayeeMasked = Record<string, string | number | boolean | null>;
+
 const CANDIDATE_STATUSES = [
   "prospect", "triage", "prequalified", "interview", "approved", "formalization",
   "onboarding", "training", "certification", "activation",
@@ -150,15 +152,16 @@ export const updateCandidateData = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     const { candidateId, ...rest } = data;
-    const patch: Record<string, string | null> = {};
-    if (rest.document !== undefined) patch.document = rest.document || null;
-    if (rest.experience !== undefined) patch.experience = rest.experience || null;
-    if (rest.notes !== undefined) patch.notes = rest.notes || null;
-    if (rest.email !== undefined) patch.email = rest.email || null;
-    if (rest.phone !== undefined) patch.phone = rest.phone || null;
-    if (rest.whatsapp !== undefined) patch.whatsapp = rest.whatsapp || null;
-    if (rest.city !== undefined) patch.city = rest.city || null;
-    if (rest.state !== undefined) patch.state = rest.state?.toUpperCase() || null;
+    const patch = {
+      ...(rest.document !== undefined ? { document: rest.document || null } : {}),
+      ...(rest.experience !== undefined ? { experience: rest.experience || null } : {}),
+      ...(rest.notes !== undefined ? { notes: rest.notes || null } : {}),
+      ...(rest.email !== undefined ? { email: rest.email || null } : {}),
+      ...(rest.phone !== undefined ? { phone: rest.phone || null } : {}),
+      ...(rest.whatsapp !== undefined ? { whatsapp: rest.whatsapp || null } : {}),
+      ...(rest.city !== undefined ? { city: rest.city || null } : {}),
+      ...(rest.state !== undefined ? { state: rest.state?.toUpperCase() || null } : {}),
+    };
     const { error } = await context.supabase.from("candidates").update(patch).eq("id", candidateId);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -304,7 +307,7 @@ export const getPartnerDetail = createServerFn({ method: "GET" })
       acceptances: acceptances ?? [],
       followups: followups ?? [],
       originCandidate: candidate ?? null,
-      payeeMasked: (maskedPayee as Record<string, unknown> | null) ?? null,
+      payeeMasked: (maskedPayee as PayeeMasked | null) ?? null,
     };
   });
 
@@ -417,7 +420,7 @@ export const updateOnboardingItem = createServerFn({ method: "POST" })
       .from("partner_onboarding_items")
       .update({
         status: data.status,
-        notes: data.notes ?? undefined,
+        notes: data.notes ?? null,
         responsible_id: context.userId,
         completed_at: data.status === "done" ? new Date().toISOString() : null,
       })
@@ -521,15 +524,16 @@ export const updatePartnerTraining = createServerFn({ method: "POST" })
       .is("module_id", null)
       .maybeSingle();
 
-    const payload: Record<string, unknown> = {
+    const now = new Date().toISOString();
+    const payload = {
       status: data.status,
       result: data.result || null,
       score: data.score ?? null,
       notes: data.notes || null,
       responsible_id: userId,
+      ...(data.status === "in_progress" ? { started_at: now } : {}),
+      ...(data.status === "completed" ? { completed_at: now } : {}),
     };
-    if (data.status === "in_progress") payload.started_at = new Date().toISOString();
-    if (data.status === "completed") payload.completed_at = new Date().toISOString();
 
     if (existing) {
       const { error } = await supabase.from("partner_trainings").update(payload).eq("id", existing.id);
@@ -571,7 +575,7 @@ export const upsertCertification = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     const { supabase, userId } = context;
-    const payload: Record<string, unknown> = {
+    const payload = {
       type: data.type,
       competency: data.competency,
       status: data.status,
@@ -579,8 +583,8 @@ export const upsertCertification = createServerFn({ method: "POST" })
       valid_until: data.validUntil || null,
       notes: data.notes || null,
       responsible_id: userId,
+      ...(data.status === "approved" ? { issued_at: new Date().toISOString() } : {}),
     };
-    if (data.status === "approved") payload.issued_at = new Date().toISOString();
 
     if (data.certificationId) {
       const { error } = await supabase
@@ -708,8 +712,8 @@ export const assignTerritory = createServerFn({ method: "POST" })
       _partner_id: data.partnerId,
       _territory_id: data.territoryId,
       _mode: data.mode,
-      _valid_until: data.validUntil ?? null,
-      _reason: data.reason ?? null,
+      _valid_until: (data.validUntil ?? null) as never,
+      _reason: (data.reason ?? null) as never,
       _idempotency_key: data.idempotencyKey,
     });
     if (error) throw new Error(error.message);
@@ -762,7 +766,7 @@ export const upsertPayeeProfile = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     const { supabase, userId } = context;
-    const payload: Record<string, unknown> = {
+    const payload = {
       holder_name: data.holderName,
       holder_document: data.holderDocument,
       payee_type: data.payeeType,
@@ -771,12 +775,10 @@ export const upsertPayeeProfile = createServerFn({ method: "POST" })
       bank_account: data.bankAccount || null,
       pix_key: data.pixKey || null,
       status: data.status,
+      ownership_validated: data.ownershipValidated,
+      validated_by: data.ownershipValidated ? userId : null,
+      validated_at: data.ownershipValidated ? new Date().toISOString() : null,
     };
-    if (data.ownershipValidated) {
-      payload.ownership_validated = true;
-      payload.validated_by = userId;
-      payload.validated_at = new Date().toISOString();
-    }
 
     const { data: existing } = await supabase
       .from("payee_profiles")
@@ -806,7 +808,7 @@ export const getMaskedPayee = createServerFn({ method: "GET" })
       _partner_id: data.partnerId,
     });
     if (error) throw new Error(error.message);
-    return (masked as Record<string, unknown> | null) ?? null;
+    return (masked as PayeeMasked | null) ?? null;
   });
 
 // ============ PAINEL DO PRÓPRIO PARCEIRO ============
@@ -867,6 +869,6 @@ export const getMyPartnerPanel = createServerFn({ method: "GET" })
       territories: territories ?? [],
       acceptances: acceptances ?? [],
       followups: followups ?? [],
-      payeeMasked: (maskedPayee as Record<string, unknown> | null) ?? null,
+      payeeMasked: (maskedPayee as PayeeMasked | null) ?? null,
     };
   });
