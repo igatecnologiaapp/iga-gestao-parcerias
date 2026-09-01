@@ -50,7 +50,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <ShieldCheck className="h-6 w-6 text-sidebar-primary" />
             <div>
               <p className="text-sm font-semibold tracking-tight">IGA Network BR</p>
-              <p className="text-xs text-sidebar-foreground/60">Fase 1 — Fundação</p>
+              <p className="text-xs text-sidebar-foreground/60">Fase 2 — Parcerias</p>
             </div>
           </div>
           <nav className="space-y-1">
