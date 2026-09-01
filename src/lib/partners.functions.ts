@@ -712,8 +712,8 @@ export const assignTerritory = createServerFn({ method: "POST" })
       _partner_id: data.partnerId,
       _territory_id: data.territoryId,
       _mode: data.mode,
-      _valid_until: data.validUntil ?? null,
-      _reason: data.reason ?? null,
+      _valid_until: (data.validUntil ?? null) as never,
+      _reason: (data.reason ?? null) as never,
       _idempotency_key: data.idempotencyKey,
     });
     if (error) throw new Error(error.message);
@@ -775,12 +775,14 @@ export const upsertPayeeProfile = createServerFn({ method: "POST" })
       bank_account: data.bankAccount || null,
       pix_key: data.pixKey || null,
       status: data.status,
+      ...(data.ownershipValidated
+        ? {
+            ownership_validated: true,
+            validated_by: userId,
+            validated_at: new Date().toISOString(),
+          }
+        : {}),
     };
-    if (data.ownershipValidated) {
-      payload.ownership_validated = true;
-      payload.validated_by = userId;
-      payload.validated_at = new Date().toISOString();
-    }
 
     const { data: existing } = await supabase
       .from("payee_profiles")
