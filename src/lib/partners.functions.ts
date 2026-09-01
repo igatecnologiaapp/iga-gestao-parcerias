@@ -8,6 +8,8 @@ import { z } from "zod";
  * O front nunca decide acesso sozinho.
  */
 
+export type PayeeMasked = Record<string, string | number | boolean | null>;
+
 const CANDIDATE_STATUSES = [
   "prospect", "triage", "prequalified", "interview", "approved", "formalization",
   "onboarding", "training", "certification", "activation",
@@ -305,7 +307,7 @@ export const getPartnerDetail = createServerFn({ method: "GET" })
       acceptances: acceptances ?? [],
       followups: followups ?? [],
       originCandidate: candidate ?? null,
-      payeeMasked: (maskedPayee as Record<string, unknown> | null) ?? null,
+      payeeMasked: (maskedPayee as PayeeMasked | null) ?? null,
     };
   });
 
@@ -807,7 +809,7 @@ export const getMaskedPayee = createServerFn({ method: "GET" })
       _partner_id: data.partnerId,
     });
     if (error) throw new Error(error.message);
-    return (masked as Record<string, unknown> | null) ?? null;
+    return (masked as PayeeMasked | null) ?? null;
   });
 
 // ============ PAINEL DO PRÓPRIO PARCEIRO ============
@@ -868,6 +870,6 @@ export const getMyPartnerPanel = createServerFn({ method: "GET" })
       territories: territories ?? [],
       acceptances: acceptances ?? [],
       followups: followups ?? [],
-      payeeMasked: (maskedPayee as Record<string, unknown> | null) ?? null,
+      payeeMasked: (maskedPayee as PayeeMasked | null) ?? null,
     };
   });
