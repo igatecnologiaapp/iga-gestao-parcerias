@@ -775,13 +775,9 @@ export const upsertPayeeProfile = createServerFn({ method: "POST" })
       bank_account: data.bankAccount || null,
       pix_key: data.pixKey || null,
       status: data.status,
-      ...(data.ownershipValidated
-        ? {
-            ownership_validated: true,
-            validated_by: userId,
-            validated_at: new Date().toISOString(),
-          }
-        : {}),
+      ownership_validated: data.ownershipValidated,
+      validated_by: data.ownershipValidated ? userId : null,
+      validated_at: data.ownershipValidated ? new Date().toISOString() : null,
     };
 
     const { data: existing } = await supabase
