@@ -766,7 +766,7 @@ export const upsertPayeeProfile = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     const { supabase, userId } = context;
-    const payload: Record<string, unknown> = {
+    const payload = {
       holder_name: data.holderName,
       holder_document: data.holderDocument,
       payee_type: data.payeeType,
