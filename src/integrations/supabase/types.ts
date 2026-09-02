@@ -219,7 +219,7 @@ export type Database = {
             foreignKeyName: "candidate_evaluations_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
-            referencedRelation: "candidates"
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
@@ -267,7 +267,7 @@ export type Database = {
             foreignKeyName: "candidate_stage_events_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
-            referencedRelation: "candidates"
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
