@@ -219,7 +219,7 @@ export type Database = {
             foreignKeyName: "candidate_evaluations_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
-            referencedRelation: "candidates"
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
@@ -267,7 +267,7 @@ export type Database = {
             foreignKeyName: "candidate_stage_events_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
-            referencedRelation: "candidates"
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
@@ -1853,12 +1853,12 @@ export type Database = {
       }
       assign_partner_territory: {
         Args: {
-          _idempotency_key: string
+          _idempotency_key?: string
           _mode: Database["public"]["Enums"]["territory_mode"]
           _partner_id: string
-          _reason: string
+          _reason?: string
           _territory_id: string
-          _valid_until: string
+          _valid_until?: string
         }
         Returns: Json
       }

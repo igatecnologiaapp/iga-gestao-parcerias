@@ -123,8 +123,9 @@ describe("F2-CAND — Recrutamento e seleção", () => {
       .single();
     expect(error).toBeNull();
     expect(data?.evaluator_id).toBe(adminA.id);
-    const upd = await adminA.db.from("candidate_evaluations").update({ decision: "x" }).eq("id", data!.id);
-    expect(upd.error).not.toBeNull();
+    await adminA.db.from("candidate_evaluations").update({ decision: "x" }).eq("id", data!.id);
+    const { data: after } = await a.from("candidate_evaluations").select("decision").eq("id", data!.id).single();
+    expect(after?.decision).toBe("avancar");
   });
 
   it("F2-CAND-008 membro sem permissão não cria candidato", async () => {
@@ -231,7 +232,7 @@ describe("F2-ONB — Onboarding versionável", () => {
   it("F2-ONB-001 nova versão do checklist não altera instâncias existentes", async () => {
     const { data: v2, error } = await a
       .from("onboarding_checklists")
-      .insert({ company_id: companyA, code: "onb_padrao", name: "Onboarding padrão", version: 2, is_active: true })
+      .insert({ company_id: companyA, code: "onboarding_padrao", name: "Onboarding padrão", version: 2, is_active: true })
       .select("id")
       .single();
     expect(error).toBeNull();
@@ -519,6 +520,7 @@ describe("F2-PAY — Dados de recebimento", () => {
       .from("payee_profile_events")
       .select("event, changed_fields")
       .eq("partner_id", partnerId)
+      .eq("event", "updated")
       .order("created_at", { ascending: false });
     expect((data ?? []).length).toBeGreaterThan(0);
     const last = (data ?? [])[0] as { event: string; changed_fields: string[] };

@@ -7,7 +7,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 export { admin, anon, userClient, createUser, createCompany, addMembership, grantRole, roleId, runId, PASSWORD } from "../fase1/helpers";
 export type { TestUser } from "../fase1/helpers";
 
-export async function seedChecklist(a: SupabaseClient, companyId: string, code = "onb_padrao") {
+export async function seedChecklist(a: SupabaseClient, companyId: string, code = "onboarding_padrao") {
   const { data: cl, error } = await a
     .from("onboarding_checklists")
     .insert({ company_id: companyId, code, name: "Onboarding padrão", version: 1, is_active: true })
