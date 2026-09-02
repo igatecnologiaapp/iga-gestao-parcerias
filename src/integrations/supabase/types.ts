@@ -1853,12 +1853,12 @@ export type Database = {
       }
       assign_partner_territory: {
         Args: {
-          _idempotency_key: string
+          _idempotency_key?: string
           _mode: Database["public"]["Enums"]["territory_mode"]
           _partner_id: string
-          _reason: string
+          _reason?: string
           _territory_id: string
-          _valid_until: string
+          _valid_until?: string
         }
         Returns: Json
       }
