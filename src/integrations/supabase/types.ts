@@ -486,6 +486,502 @@ export type Database = {
           },
         ]
       }
+      lead_conflicts: {
+        Row: {
+          approval_request_id: string | null
+          awarded_partner_id: string | null
+          claimant_partner_id: string
+          company_id: string
+          counterpart_partner_id: string | null
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          evidence: Json
+          id: string
+          lead_id: string
+          opened_by: string | null
+          protection_id: string | null
+          resolution: string | null
+          status: Database["public"]["Enums"]["lead_conflict_status"]
+          territory_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          approval_request_id?: string | null
+          awarded_partner_id?: string | null
+          claimant_partner_id: string
+          company_id: string
+          counterpart_partner_id?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          evidence?: Json
+          id?: string
+          lead_id: string
+          opened_by?: string | null
+          protection_id?: string | null
+          resolution?: string | null
+          status?: Database["public"]["Enums"]["lead_conflict_status"]
+          territory_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approval_request_id?: string | null
+          awarded_partner_id?: string | null
+          claimant_partner_id?: string
+          company_id?: string
+          counterpart_partner_id?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          evidence?: Json
+          id?: string
+          lead_id?: string
+          opened_by?: string | null
+          protection_id?: string | null
+          resolution?: string | null
+          status?: Database["public"]["Enums"]["lead_conflict_status"]
+          territory_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_conflicts_approval_request_id_fkey"
+            columns: ["approval_request_id"]
+            isOneToOne: false
+            referencedRelation: "approval_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_conflicts_awarded_partner_id_fkey"
+            columns: ["awarded_partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_conflicts_claimant_partner_id_fkey"
+            columns: ["claimant_partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_conflicts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_conflicts_counterpart_partner_id_fkey"
+            columns: ["counterpart_partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_conflicts_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_conflicts_protection_id_fkey"
+            columns: ["protection_id"]
+            isOneToOne: false
+            referencedRelation: "lead_protections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_conflicts_territory_id_fkey"
+            columns: ["territory_id"]
+            isOneToOne: false
+            referencedRelation: "territories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_duplicate_flags: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          duplicate_of_lead_id: string
+          id: string
+          lead_id: string
+          matched_on: string[]
+          resolution_notes: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          score: number
+          status: Database["public"]["Enums"]["lead_dup_status"]
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          duplicate_of_lead_id: string
+          id?: string
+          lead_id: string
+          matched_on?: string[]
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          score?: number
+          status?: Database["public"]["Enums"]["lead_dup_status"]
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          duplicate_of_lead_id?: string
+          id?: string
+          lead_id?: string
+          matched_on?: string[]
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          score?: number
+          status?: Database["public"]["Enums"]["lead_dup_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_duplicate_flags_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_duplicate_flags_duplicate_of_lead_id_fkey"
+            columns: ["duplicate_of_lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_duplicate_flags_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_protection_events: {
+        Row: {
+          actor_id: string | null
+          company_id: string
+          context: Json
+          created_at: string
+          event: string
+          from_status:
+            | Database["public"]["Enums"]["lead_protection_status"]
+            | null
+          id: string
+          lead_id: string
+          partner_id: string | null
+          protection_id: string | null
+          reason: string | null
+          to_status:
+            | Database["public"]["Enums"]["lead_protection_status"]
+            | null
+        }
+        Insert: {
+          actor_id?: string | null
+          company_id: string
+          context?: Json
+          created_at?: string
+          event: string
+          from_status?:
+            | Database["public"]["Enums"]["lead_protection_status"]
+            | null
+          id?: string
+          lead_id: string
+          partner_id?: string | null
+          protection_id?: string | null
+          reason?: string | null
+          to_status?:
+            | Database["public"]["Enums"]["lead_protection_status"]
+            | null
+        }
+        Update: {
+          actor_id?: string | null
+          company_id?: string
+          context?: Json
+          created_at?: string
+          event?: string
+          from_status?:
+            | Database["public"]["Enums"]["lead_protection_status"]
+            | null
+          id?: string
+          lead_id?: string
+          partner_id?: string | null
+          protection_id?: string | null
+          reason?: string | null
+          to_status?:
+            | Database["public"]["Enums"]["lead_protection_status"]
+            | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_protection_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_protection_events_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_protection_events_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_protection_events_protection_id_fkey"
+            columns: ["protection_id"]
+            isOneToOne: false
+            referencedRelation: "lead_protections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_protections: {
+        Row: {
+          company_id: string
+          created_at: string
+          granted_by: string | null
+          id: string
+          lead_id: string
+          origin: string
+          partner_id: string
+          reason: string | null
+          released_at: string | null
+          status: Database["public"]["Enums"]["lead_protection_status"]
+          transferred_to_partner_id: string | null
+          updated_at: string
+          valid_from: string
+          valid_until: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          lead_id: string
+          origin?: string
+          partner_id: string
+          reason?: string | null
+          released_at?: string | null
+          status?: Database["public"]["Enums"]["lead_protection_status"]
+          transferred_to_partner_id?: string | null
+          updated_at?: string
+          valid_from?: string
+          valid_until: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          lead_id?: string
+          origin?: string
+          partner_id?: string
+          reason?: string | null
+          released_at?: string | null
+          status?: Database["public"]["Enums"]["lead_protection_status"]
+          transferred_to_partner_id?: string | null
+          updated_at?: string
+          valid_from?: string
+          valid_until?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_protections_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_protections_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_protections_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_protections_transferred_to_partner_id_fkey"
+            columns: ["transferred_to_partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          address: string | null
+          campaign: string | null
+          channel: string | null
+          city: string | null
+          code: string | null
+          company_id: string
+          company_name: string
+          contact_name: string | null
+          converted_at: string | null
+          created_at: string
+          created_by: string | null
+          district: string | null
+          document: string | null
+          email: string | null
+          external_id: string | null
+          id: string
+          last_activity_at: string | null
+          metadata: Json
+          notes: string | null
+          owner_id: string | null
+          partner_id: string | null
+          phone: string | null
+          postal_code: string | null
+          qualification: Json
+          referral_code: string | null
+          segment: string | null
+          source: string | null
+          state: string | null
+          status: Database["public"]["Enums"]["lead_status"]
+          status_changed_at: string
+          territory_id: string | null
+          trade_name: string | null
+          unit_id: string | null
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          address?: string | null
+          campaign?: string | null
+          channel?: string | null
+          city?: string | null
+          code?: string | null
+          company_id: string
+          company_name: string
+          contact_name?: string | null
+          converted_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          district?: string | null
+          document?: string | null
+          email?: string | null
+          external_id?: string | null
+          id?: string
+          last_activity_at?: string | null
+          metadata?: Json
+          notes?: string | null
+          owner_id?: string | null
+          partner_id?: string | null
+          phone?: string | null
+          postal_code?: string | null
+          qualification?: Json
+          referral_code?: string | null
+          segment?: string | null
+          source?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          status_changed_at?: string
+          territory_id?: string | null
+          trade_name?: string | null
+          unit_id?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          address?: string | null
+          campaign?: string | null
+          channel?: string | null
+          city?: string | null
+          code?: string | null
+          company_id?: string
+          company_name?: string
+          contact_name?: string | null
+          converted_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          district?: string | null
+          document?: string | null
+          email?: string | null
+          external_id?: string | null
+          id?: string
+          last_activity_at?: string | null
+          metadata?: Json
+          notes?: string | null
+          owner_id?: string | null
+          partner_id?: string | null
+          phone?: string | null
+          postal_code?: string | null
+          qualification?: Json
+          referral_code?: string | null
+          segment?: string | null
+          source?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          status_changed_at?: string
+          territory_id?: string | null
+          trade_name?: string | null
+          unit_id?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_territory_id_fkey"
+            columns: ["territory_id"]
+            isOneToOne: false
+            referencedRelation: "territories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       memberships: {
         Row: {
           company_id: string
@@ -961,6 +1457,63 @@ export type Database = {
           },
         ]
       }
+      partner_referral_links: {
+        Row: {
+          campaign: string | null
+          channel: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          label: string | null
+          partner_id: string
+          public_token: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+        }
+        Insert: {
+          campaign?: string | null
+          channel?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          label?: string | null
+          partner_id: string
+          public_token: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Update: {
+          campaign?: string | null
+          channel?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          label?: string | null
+          partner_id?: string
+          public_token?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_referral_links_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_referral_links_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       partner_territories: {
         Row: {
           approved_at: string | null
@@ -1358,6 +1911,66 @@ export type Database = {
         }
         Relationships: []
       }
+      plans: {
+        Row: {
+          code: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          metadata: Json
+          name: string
+          product_id: string
+          sort_order: number
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          product_id: string
+          sort_order?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          product_id?: string
+          sort_order?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plans_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plans_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       policies: {
         Row: {
           code: string
@@ -1437,6 +2050,144 @@ export type Database = {
             columns: ["policy_id"]
             isOneToOne: false
             referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      price_policies: {
+        Row: {
+          approval_threshold_percent: number
+          billing_period: Database["public"]["Enums"]["billing_period"]
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          effective_from: string
+          effective_to: string | null
+          id: string
+          max_discount_percent: number
+          monthly_price: number
+          name: string
+          plan_id: string
+          product_id: string
+          setup_price: number
+          status: Database["public"]["Enums"]["record_status"]
+          terms: Json
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          approval_threshold_percent?: number
+          billing_period?: Database["public"]["Enums"]["billing_period"]
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          effective_from?: string
+          effective_to?: string | null
+          id?: string
+          max_discount_percent?: number
+          monthly_price?: number
+          name: string
+          plan_id: string
+          product_id: string
+          setup_price?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          terms?: Json
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          approval_threshold_percent?: number
+          billing_period?: Database["public"]["Enums"]["billing_period"]
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          effective_from?: string
+          effective_to?: string | null
+          id?: string
+          max_discount_percent?: number
+          monthly_price?: number
+          name?: string
+          plan_id?: string
+          product_id?: string
+          setup_price?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          terms?: Json
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_policies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_policies_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_policies_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string | null
+          code: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          metadata: Json
+          name: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          code: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          code?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
@@ -1935,6 +2686,12 @@ export type Database = {
       }
     }
     Enums: {
+      billing_period:
+        | "one_time"
+        | "monthly"
+        | "quarterly"
+        | "semiannual"
+        | "annual"
       candidate_status:
         | "prospect"
         | "triage"
@@ -1962,6 +2719,21 @@ export type Database = {
         | "done"
         | "waived"
         | "blocked"
+      lead_conflict_status: "open" | "under_review" | "resolved" | "dismissed"
+      lead_dup_status: "open" | "duplicate_confirmed" | "distinct_confirmed"
+      lead_protection_status:
+        | "protected"
+        | "expired"
+        | "released"
+        | "transferred"
+        | "disputed"
+      lead_status:
+        | "new"
+        | "contacted"
+        | "qualified"
+        | "disqualified"
+        | "converted"
+        | "archived"
       partner_status:
         | "onboarding"
         | "training"
@@ -2109,6 +2881,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      billing_period: [
+        "one_time",
+        "monthly",
+        "quarterly",
+        "semiannual",
+        "annual",
+      ],
       candidate_status: [
         "prospect",
         "triage",
@@ -2138,6 +2917,23 @@ export const Constants = {
         "done",
         "waived",
         "blocked",
+      ],
+      lead_conflict_status: ["open", "under_review", "resolved", "dismissed"],
+      lead_dup_status: ["open", "duplicate_confirmed", "distinct_confirmed"],
+      lead_protection_status: [
+        "protected",
+        "expired",
+        "released",
+        "transferred",
+        "disputed",
+      ],
+      lead_status: [
+        "new",
+        "contacted",
+        "qualified",
+        "disqualified",
+        "converted",
+        "archived",
       ],
       partner_status: [
         "onboarding",
