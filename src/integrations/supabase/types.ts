@@ -377,6 +377,216 @@ export type Database = {
           },
         ]
       }
+      commercial_activities: {
+        Row: {
+          actor_id: string
+          company_id: string
+          created_at: string
+          id: string
+          lead_id: string | null
+          metadata: Json
+          next_action: string | null
+          next_action_at: string | null
+          notes: string | null
+          occurred_at: string
+          opportunity_id: string | null
+          outcome: string | null
+          partner_id: string | null
+          subject: string | null
+          type: Database["public"]["Enums"]["activity_type"]
+        }
+        Insert: {
+          actor_id: string
+          company_id: string
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          metadata?: Json
+          next_action?: string | null
+          next_action_at?: string | null
+          notes?: string | null
+          occurred_at?: string
+          opportunity_id?: string | null
+          outcome?: string | null
+          partner_id?: string | null
+          subject?: string | null
+          type: Database["public"]["Enums"]["activity_type"]
+        }
+        Update: {
+          actor_id?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          metadata?: Json
+          next_action?: string | null
+          next_action_at?: string | null
+          notes?: string | null
+          occurred_at?: string
+          opportunity_id?: string | null
+          outcome?: string | null
+          partner_id?: string | null
+          subject?: string | null
+          type?: Database["public"]["Enums"]["activity_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commercial_activities_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_activities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_activities_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_activities_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      commercial_proposals: {
+        Row: {
+          approval_request_id: string | null
+          approved_at: string | null
+          approved_by: string | null
+          code: string | null
+          company_id: string
+          conditions: string | null
+          created_at: string
+          currency: string
+          decision_reason: string | null
+          id: string
+          issued_at: string
+          issued_by: string | null
+          lead_id: string
+          max_discount_percent: number
+          metadata: Json
+          opportunity_id: string
+          partner_id: string | null
+          requires_approval: boolean
+          status: Database["public"]["Enums"]["proposal_status"]
+          supersedes_id: string | null
+          total_monthly_amount: number
+          total_setup_amount: number
+          updated_at: string
+          valid_until: string | null
+          version: number
+        }
+        Insert: {
+          approval_request_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          code?: string | null
+          company_id: string
+          conditions?: string | null
+          created_at?: string
+          currency?: string
+          decision_reason?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          lead_id: string
+          max_discount_percent?: number
+          metadata?: Json
+          opportunity_id: string
+          partner_id?: string | null
+          requires_approval?: boolean
+          status?: Database["public"]["Enums"]["proposal_status"]
+          supersedes_id?: string | null
+          total_monthly_amount?: number
+          total_setup_amount?: number
+          updated_at?: string
+          valid_until?: string | null
+          version?: number
+        }
+        Update: {
+          approval_request_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          code?: string | null
+          company_id?: string
+          conditions?: string | null
+          created_at?: string
+          currency?: string
+          decision_reason?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          lead_id?: string
+          max_discount_percent?: number
+          metadata?: Json
+          opportunity_id?: string
+          partner_id?: string | null
+          requires_approval?: boolean
+          status?: Database["public"]["Enums"]["proposal_status"]
+          supersedes_id?: string | null
+          total_monthly_amount?: number
+          total_setup_amount?: number
+          updated_at?: string
+          valid_until?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commercial_proposals_approval_request_id_fkey"
+            columns: ["approval_request_id"]
+            isOneToOne: false
+            referencedRelation: "approval_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_proposals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_proposals_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_proposals_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_proposals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commercial_proposals_supersedes_id_fkey"
+            columns: ["supersedes_id"]
+            isOneToOne: false
+            referencedRelation: "commercial_proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           created_at: string
@@ -1159,6 +1369,213 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      opportunities: {
+        Row: {
+          campaign: string | null
+          channel: string | null
+          closed_at: string | null
+          code: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          expected_close_date: string | null
+          expected_monthly_amount: number | null
+          expected_setup_amount: number | null
+          id: string
+          lead_id: string
+          lost_competitor: string | null
+          lost_notes: string | null
+          lost_reason: Database["public"]["Enums"]["loss_reason"] | null
+          metadata: Json
+          name: string
+          owner_id: string | null
+          partner_id: string | null
+          referral_code: string | null
+          source: string | null
+          stage: Database["public"]["Enums"]["opportunity_stage"]
+          stage_changed_at: string
+          territory_id: string | null
+          updated_at: string
+          won_monthly_amount: number | null
+          won_plan_id: string | null
+          won_price_policy_id: string | null
+          won_product_id: string | null
+          won_proposal_id: string | null
+          won_setup_amount: number | null
+        }
+        Insert: {
+          campaign?: string | null
+          channel?: string | null
+          closed_at?: string | null
+          code?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          expected_close_date?: string | null
+          expected_monthly_amount?: number | null
+          expected_setup_amount?: number | null
+          id?: string
+          lead_id: string
+          lost_competitor?: string | null
+          lost_notes?: string | null
+          lost_reason?: Database["public"]["Enums"]["loss_reason"] | null
+          metadata?: Json
+          name: string
+          owner_id?: string | null
+          partner_id?: string | null
+          referral_code?: string | null
+          source?: string | null
+          stage?: Database["public"]["Enums"]["opportunity_stage"]
+          stage_changed_at?: string
+          territory_id?: string | null
+          updated_at?: string
+          won_monthly_amount?: number | null
+          won_plan_id?: string | null
+          won_price_policy_id?: string | null
+          won_product_id?: string | null
+          won_proposal_id?: string | null
+          won_setup_amount?: number | null
+        }
+        Update: {
+          campaign?: string | null
+          channel?: string | null
+          closed_at?: string | null
+          code?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          expected_close_date?: string | null
+          expected_monthly_amount?: number | null
+          expected_setup_amount?: number | null
+          id?: string
+          lead_id?: string
+          lost_competitor?: string | null
+          lost_notes?: string | null
+          lost_reason?: Database["public"]["Enums"]["loss_reason"] | null
+          metadata?: Json
+          name?: string
+          owner_id?: string | null
+          partner_id?: string | null
+          referral_code?: string | null
+          source?: string | null
+          stage?: Database["public"]["Enums"]["opportunity_stage"]
+          stage_changed_at?: string
+          territory_id?: string | null
+          updated_at?: string
+          won_monthly_amount?: number | null
+          won_plan_id?: string | null
+          won_price_policy_id?: string | null
+          won_product_id?: string | null
+          won_proposal_id?: string | null
+          won_setup_amount?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunities_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: true
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_territory_id_fkey"
+            columns: ["territory_id"]
+            isOneToOne: false
+            referencedRelation: "territories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_won_plan_id_fkey"
+            columns: ["won_plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_won_price_policy_id_fkey"
+            columns: ["won_price_policy_id"]
+            isOneToOne: false
+            referencedRelation: "price_policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_won_product_id_fkey"
+            columns: ["won_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_won_proposal_fkey"
+            columns: ["won_proposal_id"]
+            isOneToOne: false
+            referencedRelation: "commercial_proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      opportunity_stage_events: {
+        Row: {
+          actor_id: string | null
+          company_id: string
+          created_at: string
+          from_stage: Database["public"]["Enums"]["opportunity_stage"] | null
+          id: string
+          opportunity_id: string
+          reason: string | null
+          to_stage: Database["public"]["Enums"]["opportunity_stage"]
+        }
+        Insert: {
+          actor_id?: string | null
+          company_id: string
+          created_at?: string
+          from_stage?: Database["public"]["Enums"]["opportunity_stage"] | null
+          id?: string
+          opportunity_id: string
+          reason?: string | null
+          to_stage: Database["public"]["Enums"]["opportunity_stage"]
+        }
+        Update: {
+          actor_id?: string | null
+          company_id?: string
+          created_at?: string
+          from_stage?: Database["public"]["Enums"]["opportunity_stage"] | null
+          id?: string
+          opportunity_id?: string
+          reason?: string | null
+          to_stage?: Database["public"]["Enums"]["opportunity_stage"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunity_stage_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunity_stage_events_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
             referencedColumns: ["id"]
           },
         ]
@@ -2222,6 +2639,102 @@ export type Database = {
         }
         Relationships: []
       }
+      proposal_items: {
+        Row: {
+          billing_period: Database["public"]["Enums"]["billing_period"]
+          company_id: string
+          created_at: string
+          discount_percent: number
+          final_monthly_price: number
+          final_setup_price: number
+          id: string
+          list_monthly_price: number
+          list_setup_price: number
+          plan_id: string
+          price_policy_id: string
+          price_policy_version: number
+          product_id: string
+          proposal_id: string
+          quantity: number
+          snapshot: Json
+          within_policy: boolean
+        }
+        Insert: {
+          billing_period: Database["public"]["Enums"]["billing_period"]
+          company_id: string
+          created_at?: string
+          discount_percent?: number
+          final_monthly_price: number
+          final_setup_price: number
+          id?: string
+          list_monthly_price: number
+          list_setup_price: number
+          plan_id: string
+          price_policy_id: string
+          price_policy_version: number
+          product_id: string
+          proposal_id: string
+          quantity?: number
+          snapshot?: Json
+          within_policy?: boolean
+        }
+        Update: {
+          billing_period?: Database["public"]["Enums"]["billing_period"]
+          company_id?: string
+          created_at?: string
+          discount_percent?: number
+          final_monthly_price?: number
+          final_setup_price?: number
+          id?: string
+          list_monthly_price?: number
+          list_setup_price?: number
+          plan_id?: string
+          price_policy_id?: string
+          price_policy_version?: number
+          product_id?: string
+          proposal_id?: string
+          quantity?: number
+          snapshot?: Json
+          within_policy?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposal_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposal_items_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposal_items_price_policy_id_fkey"
+            columns: ["price_policy_id"]
+            isOneToOne: false
+            referencedRelation: "price_policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposal_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposal_items_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "commercial_proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role_assignments: {
         Row: {
           company_id: string | null
@@ -2602,6 +3115,23 @@ export type Database = {
         }
         Returns: Json
       }
+      advance_opportunity_stage: {
+        Args: {
+          _opportunity_id: string
+          _reason?: string
+          _stage: Database["public"]["Enums"]["opportunity_stage"]
+        }
+        Returns: Json
+      }
+      assign_lead: {
+        Args: {
+          _lead_id: string
+          _owner_id?: string
+          _partner_id?: string
+          _reason?: string
+        }
+        Returns: Json
+      }
       assign_partner_territory: {
         Args: {
           _idempotency_key?: string
@@ -2630,11 +3160,55 @@ export type Database = {
         }
         Returns: Json
       }
+      close_opportunity_lost: {
+        Args: {
+          _competitor?: string
+          _notes?: string
+          _opportunity_id: string
+          _reason: Database["public"]["Enums"]["loss_reason"]
+        }
+        Returns: Json
+      }
+      close_opportunity_won: {
+        Args: {
+          _idempotency_key: string
+          _opportunity_id: string
+          _proposal_id: string
+        }
+        Returns: Json
+      }
       convert_candidate_to_partner: {
         Args: {
           _candidate_id: string
           _checklist_code?: string
           _idempotency_key: string
+        }
+        Returns: Json
+      }
+      convert_lead_to_opportunity: {
+        Args: { _idempotency_key: string; _lead_id: string; _name?: string }
+        Returns: Json
+      }
+      create_lead: {
+        Args: { _company_id: string; _idempotency_key: string; _payload: Json }
+        Returns: Json
+      }
+      decide_proposal_discount: {
+        Args: { _approve: boolean; _proposal_id: string; _reason: string }
+        Returns: Json
+      }
+      expire_lead_protections: {
+        Args: { _company_id: string }
+        Returns: number
+      }
+      find_lead_duplicates: {
+        Args: {
+          _city?: string
+          _company_id: string
+          _company_name?: string
+          _document?: string
+          _email?: string
+          _phone?: string
         }
         Returns: Json
       }
@@ -2649,6 +3223,16 @@ export type Database = {
       }
       is_platform_admin: { Args: { _user_id: string }; Returns: boolean }
       is_user_active: { Args: { _user_id: string }; Returns: boolean }
+      issue_proposal: {
+        Args: {
+          _conditions?: string
+          _idempotency_key: string
+          _items: Json
+          _opportunity_id: string
+          _valid_until?: string
+        }
+        Returns: Json
+      }
       log_audit_event: {
         Args: {
           _action: string
@@ -2684,8 +3268,64 @@ export type Database = {
         }
         Returns: string
       }
+      open_lead_conflict: {
+        Args: {
+          _claimant_partner_id: string
+          _evidence?: Json
+          _idempotency_key?: string
+          _lead_id: string
+        }
+        Returns: Json
+      }
+      opportunity_transition_allowed: {
+        Args: {
+          _from: Database["public"]["Enums"]["opportunity_stage"]
+          _to: Database["public"]["Enums"]["opportunity_stage"]
+        }
+        Returns: boolean
+      }
+      protect_lead: {
+        Args: {
+          _idempotency_key?: string
+          _lead_id: string
+          _origin?: string
+          _partner_id: string
+          _reason?: string
+          _valid_until: string
+        }
+        Returns: Json
+      }
+      release_lead_protection: {
+        Args: { _protection_id: string; _reason?: string }
+        Returns: Json
+      }
+      resolve_lead_conflict: {
+        Args: {
+          _awarded_partner_id: string
+          _conflict_id: string
+          _resolution: string
+        }
+        Returns: Json
+      }
+      transfer_lead_protection: {
+        Args: {
+          _idempotency_key?: string
+          _protection_id: string
+          _reason: string
+          _to_partner_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
+      activity_type:
+        | "call"
+        | "whatsapp"
+        | "email"
+        | "meeting"
+        | "visit"
+        | "demo"
+        | "note"
       billing_period:
         | "one_time"
         | "monthly"
@@ -2734,6 +3374,25 @@ export type Database = {
         | "disqualified"
         | "converted"
         | "archived"
+      loss_reason:
+        | "price"
+        | "timing"
+        | "competitor"
+        | "no_fit"
+        | "no_budget"
+        | "no_response"
+        | "internal"
+        | "other"
+      opportunity_stage:
+        | "new"
+        | "qualified"
+        | "contact"
+        | "diagnosis"
+        | "demo"
+        | "proposal"
+        | "negotiation"
+        | "won"
+        | "lost"
       partner_status:
         | "onboarding"
         | "training"
@@ -2744,6 +3403,17 @@ export type Database = {
         | "inactive"
         | "exit"
       partner_territory_status: "pending" | "active" | "revoked" | "expired"
+      proposal_status:
+        | "draft"
+        | "pending_approval"
+        | "approved"
+        | "rejected"
+        | "sent"
+        | "accepted"
+        | "declined"
+        | "expired"
+        | "superseded"
+        | "cancelled"
       record_status: "active" | "inactive" | "suspended"
       role_scope: "platform" | "company" | "unit"
       territory_mode: "open" | "recommended_base" | "preferred" | "protected"
@@ -2881,6 +3551,15 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      activity_type: [
+        "call",
+        "whatsapp",
+        "email",
+        "meeting",
+        "visit",
+        "demo",
+        "note",
+      ],
       billing_period: [
         "one_time",
         "monthly",
@@ -2935,6 +3614,27 @@ export const Constants = {
         "converted",
         "archived",
       ],
+      loss_reason: [
+        "price",
+        "timing",
+        "competitor",
+        "no_fit",
+        "no_budget",
+        "no_response",
+        "internal",
+        "other",
+      ],
+      opportunity_stage: [
+        "new",
+        "qualified",
+        "contact",
+        "diagnosis",
+        "demo",
+        "proposal",
+        "negotiation",
+        "won",
+        "lost",
+      ],
       partner_status: [
         "onboarding",
         "training",
@@ -2946,6 +3646,18 @@ export const Constants = {
         "exit",
       ],
       partner_territory_status: ["pending", "active", "revoked", "expired"],
+      proposal_status: [
+        "draft",
+        "pending_approval",
+        "approved",
+        "rejected",
+        "sent",
+        "accepted",
+        "declined",
+        "expired",
+        "superseded",
+        "cancelled",
+      ],
       record_status: ["active", "inactive", "suspended"],
       role_scope: ["platform", "company", "unit"],
       territory_mode: ["open", "recommended_base", "preferred", "protected"],
