@@ -16,6 +16,7 @@ import { Route as AuthenticatedAuditoriaRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCandidatosRouteImport } from './routes/_authenticated/candidatos'
 import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
 import { Route as AuthenticatedGovernancaRouteImport } from './routes/_authenticated/governanca'
+import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedParceirosRouteImport } from './routes/_authenticated/parceiros'
 import { Route as AuthenticatedTerritoriosRouteImport } from './routes/_authenticated/territorios'
@@ -55,6 +56,11 @@ const AuthenticatedGovernancaRoute = AuthenticatedGovernancaRouteImport.update({
   path: '/governanca',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/candidatos': typeof AuthenticatedCandidatosRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/governanca': typeof AuthenticatedGovernancaRoute
+  '/leads': typeof AuthenticatedLeadsRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/parceiros': typeof AuthenticatedParceirosRoute
   '/territorios': typeof AuthenticatedTerritoriosRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/candidatos': typeof AuthenticatedCandidatosRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/governanca': typeof AuthenticatedGovernancaRoute
+  '/leads': typeof AuthenticatedLeadsRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/parceiros': typeof AuthenticatedParceirosRoute
   '/territorios': typeof AuthenticatedTerritoriosRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/_authenticated/candidatos': typeof AuthenticatedCandidatosRoute
   '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
   '/_authenticated/governanca': typeof AuthenticatedGovernancaRoute
+  '/_authenticated/leads': typeof AuthenticatedLeadsRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/parceiros': typeof AuthenticatedParceirosRoute
   '/_authenticated/territorios': typeof AuthenticatedTerritoriosRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/candidatos'
     | '/empresas'
     | '/governanca'
+    | '/leads'
     | '/painel'
     | '/parceiros'
     | '/territorios'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/candidatos'
     | '/empresas'
     | '/governanca'
+    | '/leads'
     | '/painel'
     | '/parceiros'
     | '/territorios'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/_authenticated/candidatos'
     | '/_authenticated/empresas'
     | '/_authenticated/governanca'
+    | '/_authenticated/leads'
     | '/_authenticated/painel'
     | '/_authenticated/parceiros'
     | '/_authenticated/territorios'
@@ -212,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGovernancaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/leads': {
+      id: '/_authenticated/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof AuthenticatedLeadsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/painel': {
       id: '/_authenticated/painel'
       path: '/painel'
@@ -248,6 +267,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCandidatosRoute: typeof AuthenticatedCandidatosRoute
   AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
   AuthenticatedGovernancaRoute: typeof AuthenticatedGovernancaRoute
+  AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedParceirosRoute: typeof AuthenticatedParceirosRoute
   AuthenticatedTerritoriosRoute: typeof AuthenticatedTerritoriosRoute
@@ -259,6 +279,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCandidatosRoute: AuthenticatedCandidatosRoute,
   AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
   AuthenticatedGovernancaRoute: AuthenticatedGovernancaRoute,
+  AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedParceirosRoute: AuthenticatedParceirosRoute,
   AuthenticatedTerritoriosRoute: AuthenticatedTerritoriosRoute,
