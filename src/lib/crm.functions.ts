@@ -29,11 +29,17 @@ type RpcResult = {
   approval_request_id?: string | null;
   code?: string | null;
   version?: number | null;
+  duplicates?: DuplicateMatch[];
+  requires_approval?: boolean;
+  total_setup_amount?: number;
+  total_monthly_amount?: number;
 };
 
 type DuplicateMatch = {
   lead_id: string;
   company_name: string;
+  city?: string | null;
+  status?: string;
   matched_on: string[];
   score: number;
 };
@@ -239,11 +245,11 @@ export const findDuplicates = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     const { data: res, error } = await context.supabase.rpc("find_lead_duplicates", {
       _company_id: data.companyId,
-      _document: data.document || undefined,
-      _email: data.email || undefined,
-      _phone: data.phone || undefined,
-      _company_name: data.companyName || undefined,
-      _city: data.city || undefined,
+      ...(data.document ? { _document: data.document } : {}),
+      ...(data.email ? { _email: data.email } : {}),
+      ...(data.phone ? { _phone: data.phone } : {}),
+      ...(data.companyName ? { _company_name: data.companyName } : {}),
+      ...(data.city ? { _city: data.city } : {}),
     });
     if (error) throw new Error(error.message);
     return (res ?? []) as DuplicateMatch[];
