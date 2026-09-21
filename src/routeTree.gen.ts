@@ -14,9 +14,11 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAuditoriaRouteImport } from './routes/_authenticated/auditoria'
 import { Route as AuthenticatedCandidatosRouteImport } from './routes/_authenticated/candidatos'
+import { Route as AuthenticatedCatalogoRouteImport } from './routes/_authenticated/catalogo'
 import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
 import { Route as AuthenticatedGovernancaRouteImport } from './routes/_authenticated/governanca'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
+import { Route as AuthenticatedOportunidadesRouteImport } from './routes/_authenticated/oportunidades'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedParceirosRouteImport } from './routes/_authenticated/parceiros'
 import { Route as AuthenticatedTerritoriosRouteImport } from './routes/_authenticated/territorios'
@@ -46,6 +48,11 @@ const AuthenticatedCandidatosRoute = AuthenticatedCandidatosRouteImport.update({
   path: '/candidatos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCatalogoRoute = AuthenticatedCatalogoRouteImport.update({
+  id: '/catalogo',
+  path: '/catalogo',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedEmpresasRoute = AuthenticatedEmpresasRouteImport.update({
   id: '/empresas',
   path: '/empresas',
@@ -61,6 +68,12 @@ const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedOportunidadesRoute =
+  AuthenticatedOportunidadesRouteImport.update({
+    id: '/oportunidades',
+    path: '/oportunidades',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -88,9 +101,11 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/auditoria': typeof AuthenticatedAuditoriaRoute
   '/candidatos': typeof AuthenticatedCandidatosRoute
+  '/catalogo': typeof AuthenticatedCatalogoRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/governanca': typeof AuthenticatedGovernancaRoute
   '/leads': typeof AuthenticatedLeadsRoute
+  '/oportunidades': typeof AuthenticatedOportunidadesRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/parceiros': typeof AuthenticatedParceirosRoute
   '/territorios': typeof AuthenticatedTerritoriosRoute
@@ -101,9 +116,11 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/auditoria': typeof AuthenticatedAuditoriaRoute
   '/candidatos': typeof AuthenticatedCandidatosRoute
+  '/catalogo': typeof AuthenticatedCatalogoRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/governanca': typeof AuthenticatedGovernancaRoute
   '/leads': typeof AuthenticatedLeadsRoute
+  '/oportunidades': typeof AuthenticatedOportunidadesRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/parceiros': typeof AuthenticatedParceirosRoute
   '/territorios': typeof AuthenticatedTerritoriosRoute
@@ -116,9 +133,11 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/auditoria': typeof AuthenticatedAuditoriaRoute
   '/_authenticated/candidatos': typeof AuthenticatedCandidatosRoute
+  '/_authenticated/catalogo': typeof AuthenticatedCatalogoRoute
   '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
   '/_authenticated/governanca': typeof AuthenticatedGovernancaRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
+  '/_authenticated/oportunidades': typeof AuthenticatedOportunidadesRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/parceiros': typeof AuthenticatedParceirosRoute
   '/_authenticated/territorios': typeof AuthenticatedTerritoriosRoute
@@ -131,9 +150,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/auditoria'
     | '/candidatos'
+    | '/catalogo'
     | '/empresas'
     | '/governanca'
     | '/leads'
+    | '/oportunidades'
     | '/painel'
     | '/parceiros'
     | '/territorios'
@@ -144,9 +165,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/auditoria'
     | '/candidatos'
+    | '/catalogo'
     | '/empresas'
     | '/governanca'
     | '/leads'
+    | '/oportunidades'
     | '/painel'
     | '/parceiros'
     | '/territorios'
@@ -158,9 +181,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/auditoria'
     | '/_authenticated/candidatos'
+    | '/_authenticated/catalogo'
     | '/_authenticated/empresas'
     | '/_authenticated/governanca'
     | '/_authenticated/leads'
+    | '/_authenticated/oportunidades'
     | '/_authenticated/painel'
     | '/_authenticated/parceiros'
     | '/_authenticated/territorios'
@@ -210,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCandidatosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/catalogo': {
+      id: '/_authenticated/catalogo'
+      path: '/catalogo'
+      fullPath: '/catalogo'
+      preLoaderRoute: typeof AuthenticatedCatalogoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/empresas': {
       id: '/_authenticated/empresas'
       path: '/empresas'
@@ -229,6 +261,13 @@ declare module '@tanstack/react-router' {
       path: '/leads'
       fullPath: '/leads'
       preLoaderRoute: typeof AuthenticatedLeadsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/oportunidades': {
+      id: '/_authenticated/oportunidades'
+      path: '/oportunidades'
+      fullPath: '/oportunidades'
+      preLoaderRoute: typeof AuthenticatedOportunidadesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/painel': {
@@ -265,9 +304,11 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAuditoriaRoute: typeof AuthenticatedAuditoriaRoute
   AuthenticatedCandidatosRoute: typeof AuthenticatedCandidatosRoute
+  AuthenticatedCatalogoRoute: typeof AuthenticatedCatalogoRoute
   AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
   AuthenticatedGovernancaRoute: typeof AuthenticatedGovernancaRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
+  AuthenticatedOportunidadesRoute: typeof AuthenticatedOportunidadesRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedParceirosRoute: typeof AuthenticatedParceirosRoute
   AuthenticatedTerritoriosRoute: typeof AuthenticatedTerritoriosRoute
@@ -277,9 +318,11 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAuditoriaRoute: AuthenticatedAuditoriaRoute,
   AuthenticatedCandidatosRoute: AuthenticatedCandidatosRoute,
+  AuthenticatedCatalogoRoute: AuthenticatedCatalogoRoute,
   AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
   AuthenticatedGovernancaRoute: AuthenticatedGovernancaRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
+  AuthenticatedOportunidadesRoute: AuthenticatedOportunidadesRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedParceirosRoute: AuthenticatedParceirosRoute,
   AuthenticatedTerritoriosRoute: AuthenticatedTerritoriosRoute,
