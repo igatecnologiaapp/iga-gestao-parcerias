@@ -19,7 +19,30 @@ const LOSS_REASONS = [
 ] as const;
 const BILLING_PERIODS = ["one_time", "monthly", "quarterly", "semiannual", "annual"] as const;
 
-type RpcResult = { status: string; [k: string]: unknown };
+type RpcResult = {
+  status: string;
+  lead_id?: string | null;
+  opportunity_id?: string | null;
+  proposal_id?: string | null;
+  protection_id?: string | null;
+  conflict_id?: string | null;
+  approval_request_id?: string | null;
+  code?: string | null;
+  version?: number | null;
+  duplicates?: DuplicateMatch[];
+  requires_approval?: boolean;
+  total_setup_amount?: number;
+  total_monthly_amount?: number;
+};
+
+type DuplicateMatch = {
+  lead_id: string;
+  company_name: string;
+  city?: string | null;
+  status?: string;
+  matched_on: string[];
+  score: number;
+};
 
 // ============ CATÁLOGO: PRODUTOS ============
 
@@ -222,14 +245,14 @@ export const findDuplicates = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     const { data: res, error } = await context.supabase.rpc("find_lead_duplicates", {
       _company_id: data.companyId,
-      _document: data.document || null,
-      _email: data.email || null,
-      _phone: data.phone || null,
-      _company_name: data.companyName || null,
-      _city: data.city || null,
+      ...(data.document ? { _document: data.document } : {}),
+      ...(data.email ? { _email: data.email } : {}),
+      ...(data.phone ? { _phone: data.phone } : {}),
+      ...(data.companyName ? { _company_name: data.companyName } : {}),
+      ...(data.city ? { _city: data.city } : {}),
     });
     if (error) throw new Error(error.message);
-    return (res ?? []) as unknown[];
+    return (res ?? []) as DuplicateMatch[];
   });
 
 export const createLead = createServerFn({ method: "POST" })

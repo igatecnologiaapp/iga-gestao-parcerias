@@ -2,13 +2,16 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
+  BriefcaseBusiness,
   FileClock,
   Handshake,
   LayoutDashboard,
   LogOut,
   MapPin,
+  PackageSearch,
   ScrollText,
   ShieldCheck,
+  Target,
   UserSearch,
   Users,
 } from "lucide-react";
@@ -23,6 +26,9 @@ const NAV = [
   { to: "/candidatos", label: "Recrutamento", icon: UserSearch },
   { to: "/parceiros", label: "Parceiros", icon: Handshake },
   { to: "/territorios", label: "Territórios", icon: MapPin },
+  { to: "/leads", label: "Leads", icon: Target },
+  { to: "/oportunidades", label: "Oportunidades", icon: BriefcaseBusiness },
+  { to: "/catalogo", label: "Catálogo comercial", icon: PackageSearch },
   { to: "/empresas", label: "Empresas e unidades", icon: Building2 },
   { to: "/usuarios", label: "Usuários e papéis", icon: Users },
   { to: "/auditoria", label: "Auditoria", icon: FileClock },
@@ -50,7 +56,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <ShieldCheck className="h-6 w-6 text-sidebar-primary" />
             <div>
               <p className="text-sm font-semibold tracking-tight">IGA Network BR</p>
-              <p className="text-xs text-sidebar-foreground/60">Fase 2 — Parcerias</p>
+              <p className="text-xs text-sidebar-foreground/60">Fase 3 — CRM comercial</p>
             </div>
           </div>
           <nav className="space-y-1">
