@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep Vite pinned to the validated 7.x line because Vite 8/Rolldown breaks the hosted TanStack Start SSR preview despite successful local builds.
