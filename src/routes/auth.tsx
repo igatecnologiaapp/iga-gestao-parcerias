@@ -26,6 +26,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [recovering, setRecovering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -42,10 +43,35 @@ function AuthPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
-      toast.error("Credenciais inválidas");
+      if (error.code === "email_not_confirmed") {
+        toast.error("Confirme seu e-mail antes de entrar. Use “Esqueci minha senha” para receber um novo link.");
+      } else {
+        toast.error("E-mail ou senha inválidos");
+      }
       return;
     }
     navigate({ to: "/painel", replace: true });
+  }
+
+  async function recoverPassword() {
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
+      toast.error("Informe seu e-mail para receber o link de recuperação");
+      return;
+    }
+
+    setRecovering(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+      redirectTo: `${window.location.origin}/redefinir-senha`,
+    });
+    setRecovering(false);
+
+    if (error) {
+      toast.error("Não foi possível enviar o link agora. Tente novamente em alguns minutos.");
+      return;
+    }
+
+    toast.success("Link enviado. Verifique sua caixa de entrada e a pasta de spam.");
   }
 
   async function signUp(e: React.FormEvent) {
@@ -115,6 +141,15 @@ function AuthPage() {
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
                 Entrar
+              </Button>
+              <Button
+                type="button"
+                variant="link"
+                className="h-auto w-full"
+                disabled={recovering}
+                onClick={recoverPassword}
+              >
+                {recovering ? "Enviando link…" : "Esqueci minha senha"}
               </Button>
             </form>
           </TabsContent>
