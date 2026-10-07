@@ -28,7 +28,7 @@ import {
 } from "@/lib/partners.functions";
 
 export const Route = createFileRoute("/_authenticated/parceiros")({
-  validateSearch: (s: Record<string, unknown>): { tab?: string } => ({ tab: typeof s.tab === "string" ? s.tab : undefined }),
+  validateSearch: (s: Record<string, unknown>): { tab?: string } => (typeof s["tab"] === "string" ? { tab: s["tab"] } : {}),
   head: () => ({
     meta: [
       { title: "Parceiros e Onboarding — IGA Network BR" },

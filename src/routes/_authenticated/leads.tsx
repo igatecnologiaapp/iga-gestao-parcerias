@@ -41,7 +41,7 @@ import {
 } from "@/lib/crm.functions";
 
 export const Route = createFileRoute("/_authenticated/leads")({
-  validateSearch: (s: Record<string, unknown>): { tab?: string } => ({ tab: typeof s.tab === "string" ? s.tab : undefined }),
+  validateSearch: (s: Record<string, unknown>): { tab?: string } => (typeof s["tab"] === "string" ? { tab: s["tab"] } : {}),
   head: () => ({
     meta: [
       { title: "Leads — IGA Network BR" },

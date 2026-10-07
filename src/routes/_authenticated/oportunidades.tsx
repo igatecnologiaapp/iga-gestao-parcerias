@@ -20,7 +20,7 @@ import { useOpportunities, useOpportunityDetail, usePricePolicies } from "@/hook
 import { addActivity, advanceStage, closeLost, closeWon, decideDiscount, issueProposal } from "@/lib/crm.functions";
 
 export const Route = createFileRoute("/_authenticated/oportunidades")({
-  validateSearch: (s: Record<string, unknown>): { tab?: string } => ({ tab: typeof s.tab === "string" ? s.tab : undefined }),
+  validateSearch: (s: Record<string, unknown>): { tab?: string } => (typeof s["tab"] === "string" ? { tab: s["tab"] } : {}),
   head: () => ({ meta: [
     { title: "Oportunidades — IGA Network BR" },
     { name: "description", content: "Pipeline comercial, atividades, propostas versionadas e fechamento Won/Lost." },
