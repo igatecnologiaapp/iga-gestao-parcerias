@@ -32,7 +32,7 @@ dist-ssr
 *.sw?
 
 # Segredos / ambiente local (F1-SEC-001)
-.env
+# .env versionado: contem apenas valores publicos do Cloud exigidos no build publicado
 .env.*
 !.env.example
 
