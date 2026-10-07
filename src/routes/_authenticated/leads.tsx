@@ -41,6 +41,7 @@ import {
 } from "@/lib/crm.functions";
 
 export const Route = createFileRoute("/_authenticated/leads")({
+  validateSearch: (s: Record<string, unknown>): { tab?: string } => ({ tab: typeof s.tab === "string" ? s.tab : undefined }),
   head: () => ({
     meta: [
       { title: "Leads — IGA Network BR" },
@@ -332,6 +333,7 @@ function LeadDetalhe({
   companyId: string | null;
   onClose: () => void;
 }) {
+  const { tab } = Route.useSearch();
   const qc = useQueryClient();
   const { can } = usePermissions(companyId);
   const { data: me } = useMyContext();
@@ -386,7 +388,7 @@ function LeadDetalhe({
           </SheetDescription>
         </SheetHeader>
 
-        <Tabs defaultValue="acoes" className="mt-4">
+        <Tabs defaultValue={tab ?? "acoes"} className="mt-4">
           <TabsList className="w-full">
             <TabsTrigger value="acoes" className="flex-1">
               Ações
