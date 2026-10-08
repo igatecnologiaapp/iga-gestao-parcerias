@@ -12,3 +12,5 @@
 - Keep Vite pinned to the validated 7.x line because Vite 8/Rolldown breaks the hosted TanStack Start SSR preview despite successful local builds.
 
 - Keep the auto-generated `.env` versioned (it holds only public Cloud URL/publishable key); ignoring it makes hosted builds ship without backend config and blank-screen. Real secrets live in the secret store, never in `.env`.
+
+- Navigation groups reuse existing routes and detail tabs; menu permissions use the same active company as page queries, while existing server authorization and RLS remain authoritative.

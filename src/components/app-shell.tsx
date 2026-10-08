@@ -93,7 +93,8 @@ const NAV: NavGroup[] = [
 function useVisibleNav() {
   const { data: me } = useMyContext();
   return useMemo(() => {
-    const all = new Set(Object.values(me?.companyPermissions ?? {}).flat());
+    const companyId = me?.memberships?.[0]?.company_id;
+    const all = new Set(companyId ? me?.companyPermissions?.[companyId] ?? [] : []);
     const isMember = (me?.memberships?.length ?? 0) > 0 || me?.isPlatformAdmin;
     const allowed = (i: NavItem) =>
       me?.isPlatformAdmin || (i.perms.length === 0 ? isMember || i.to === "/painel" : i.perms.some((p) => all.has(p)));
@@ -119,8 +120,9 @@ function NavTree({ onNavigate }: { onNavigate?: () => void }) {
         const isOpen = open[g.label] ?? g.label === activeGroup;
         return (
           <div key={g.label}>
-            <button
+            <Button
               type="button"
+              variant="ghost"
               aria-expanded={isOpen}
               onClick={() => setOpen((o) => ({ ...o, [g.label]: !isOpen }))}
               className={cn(
@@ -131,7 +133,7 @@ function NavTree({ onNavigate }: { onNavigate?: () => void }) {
               <Icon className="h-4 w-4 shrink-0" />
               <span className="flex-1 text-left">{g.label}</span>
               <ChevronDown className={cn("h-4 w-4 transition-transform", isOpen && "rotate-180")} />
-            </button>
+            </Button>
             {isOpen ? (
               <ul className="mb-2 ml-5 space-y-0.5 border-l border-sidebar-border pl-3">
                 {g.items.map((i) => {
