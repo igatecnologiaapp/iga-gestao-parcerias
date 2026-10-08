@@ -196,6 +196,7 @@ function ParceiroDetalhe({
   canPayee: boolean;
 }) {
   const { tab } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const qc = useQueryClient();
   const { data } = usePartnerDetail(partnerId);
   const { data: tracks } = useTrainingTracks(companyId);
@@ -236,13 +237,13 @@ function ParceiroDetalhe({
         </SheetHeader>
 
         {!partner ? null : (
-          <Tabs defaultValue={tab ?? "onboarding"} className="mt-6">
+          <Tabs value={tab ?? "onboarding"} onValueChange={(tab) => { void navigate({ search: { tab }, replace: true }); }} className="mt-6">
             <TabsList className="flex w-full flex-wrap">
               <TabsTrigger value="onboarding">Onboarding</TabsTrigger>
               <TabsTrigger value="capacitacao">Capacitação</TabsTrigger>
               <TabsTrigger value="territorios">Territórios</TabsTrigger>
               <TabsTrigger value="acompanhamento">90 dias</TabsTrigger>
-              <TabsTrigger value="recebimento">Recebimento</TabsTrigger>
+              <TabsTrigger value="recebimento">Dados para pagamento</TabsTrigger>
             </TabsList>
 
             <TabsContent value="onboarding" className="space-y-4">

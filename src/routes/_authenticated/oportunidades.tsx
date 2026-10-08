@@ -62,6 +62,7 @@ function Oportunidades() {
 
 function OportunidadeDetalhe({ id, companyId, onClose }: { id: string | null; companyId: string | null; onClose: () => void }) {
   const { tab } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const qc = useQueryClient();
   const { data } = useOpportunityDetail(id);
   const { data: policies } = usePricePolicies(companyId);
@@ -76,7 +77,7 @@ function OportunidadeDetalhe({ id, companyId, onClose }: { id: string | null; co
   const refresh = () => { qc.invalidateQueries({ queryKey: ["opportunity", id] }); qc.invalidateQueries({ queryKey: ["opportunities"] }); qc.invalidateQueries({ queryKey: ["proposals"] }); };
   async function run(fn: () => Promise<unknown>, msg: string) { try { await fn(); toast.success(msg); refresh(); } catch (e) { toast.error((e as Error).message); } }
   return <Sheet open={!!id} onOpenChange={(v) => !v && onClose()}><SheetContent className="w-full overflow-y-auto sm:max-w-xl"><SheetHeader><SheetTitle>{o?.name ?? "Oportunidade"}</SheetTitle><SheetDescription><span className="font-mono">{o?.code ?? "—"}</span> · {STAGES[o?.stage ?? ""] ?? ""}</SheetDescription></SheetHeader>
-    <Tabs defaultValue={tab ?? "pipeline"} className="mt-4"><TabsList className="w-full"><TabsTrigger value="pipeline" className="flex-1">Pipeline</TabsTrigger><TabsTrigger value="atividades" className="flex-1">Atividades</TabsTrigger><TabsTrigger value="propostas" className="flex-1">Propostas</TabsTrigger></TabsList>
+    <Tabs value={tab ?? "pipeline"} onValueChange={(tab) => { void navigate({ search: { tab }, replace: true }); }} className="mt-4"><TabsList className="w-full"><TabsTrigger value="pipeline" className="flex-1">Pipeline</TabsTrigger><TabsTrigger value="atividades" className="flex-1">Atividades</TabsTrigger><TabsTrigger value="propostas" className="flex-1">Propostas</TabsTrigger></TabsList>
       <TabsContent value="pipeline" className="space-y-4 pt-4">
         <div className="flex flex-wrap gap-2">{Object.entries(STAGES).filter(([v]) => !["won", "lost"].includes(v)).map(([v, l]) => <Button key={v} size="sm" variant={o?.stage === v ? "default" : "outline"} disabled={["won", "lost"].includes(o?.stage ?? "")} onClick={() => run(() => advance({ data: { opportunityId: id, stage: v as never } }), `Etapa alterada para ${l}`)}>{l}</Button>)}</div>
         <Dialog><DialogTrigger asChild><Button size="sm" variant="destructive" disabled={["won", "lost"].includes(o?.stage ?? "")}><XCircle className="mr-2 h-4 w-4" />Marcar como perdida</Button></DialogTrigger><DialogContent><DialogHeader><DialogTitle>Encerrar como perdida</DialogTitle><DialogDescription>O motivo estruturado será preservado para análises futuras.</DialogDescription></DialogHeader><Select value={lossReason} onValueChange={setLossReason}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{LOSS_OPTIONS.map(([v,l]) => <SelectItem key={v} value={v}>{l}</SelectItem>)}</SelectContent></Select><Input placeholder="Concorrente (quando conhecido)" value={competitor} onChange={(e) => setCompetitor(e.target.value)} /><DialogFooter><Button variant="destructive" onClick={() => run(() => lost({ data: { opportunityId: id, reason: lossReason as never, competitor: competitor || undefined } }), "Oportunidade encerrada como perdida")}>Confirmar perda</Button></DialogFooter></DialogContent></Dialog>

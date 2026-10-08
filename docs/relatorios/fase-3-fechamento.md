@@ -120,3 +120,46 @@ A regressão homologada das Fases 1 e 2 totalizou **79/79 PASS**. A suíte nova 
 Não foram implementados cálculo de comissão, recorrência, fechamento financeiro, payout, integração bancária, implantação técnica, capacidade técnica, suporte, Health Score, churn, OEC, incentivos internos, programa Indique e Ganhe completo, dashboards avançados, Score Network operacional, IA ou modelos preditivos.
 
 A Fase 3 não é declarada homologada por este relatório; a decisão cabe à homologação formal. A Fase 4 permanece bloqueada, especialmente qualquer implementação financeira, de comissão ou payout.
+
+## 10. Saneamento pós-homologação técnica e reorganização da navegação
+
+### Configuração de publicação
+
+O incidente anterior ocorreu quando o build deixou de receber as configurações públicas do cliente. A configuração instalada de `@lovable.dev/vite-tanstack-config` executa `loadEnv(mode, process.cwd(), "VITE_")` e injeta essas variáveis como `import.meta.env.*` no bundle. Este mecanismo foi confirmado no pacote instalado, não presumido.
+
+O `.env` gerado e atualmente versionado foi preservado, sem editar ou remover suas configurações. Contém somente URL, identificador e chave publishable públicos, nos nomes de cliente e servidor. Verificação automatizada confirmou somente esses seis nomes permitidos e ausência de marcadores de service_role, sb_secret e chave privada. `.env.example` preservado. Segredos reais devem continuar no armazenamento protegido, nunca nesse arquivo. Não se afirma que todas as alternativas de injeção da plataforma exigem versionamento: preservou-se o método comprovadamente funcional deste projeto, sem arriscar nova interrupção. Vite permanece na linha 7.x.
+
+### Navegação antes/depois
+
+Antes: onze links planos; celular com faixa horizontal de links.
+
+Depois: categorias expansíveis com no máximo dois níveis e menu lateral recolhível no celular:
+
+- Início: Dashboard (nome do painel existente, sem criar dashboard novo).
+- Parceiros: Candidatos; Parceiros; Onboarding; Treinamentos e certificações; Acompanhamento 90 dias; Territórios.
+- Comercial: Leads; Proteção e conflitos; Oportunidades e pipeline; Atividades comerciais; Propostas.
+- Produtos e preços: Produtos, planos e preços, na tela existente.
+- Governança: Políticas versionadas; Auditoria. Políticas são mostradas somente com `policy.manage`, evitando encaminhar usuários operacionais às ferramentas técnicas existentes nessa tela. Não foram inventadas telas de aceites ou aprovações.
+- Administração: Empresas e unidades; Usuários, papéis e permissões.
+- Menu da conta: identidade já cadastrada, Alterar senha e Sair. Não foi criada nova tela de perfil.
+
+Abas de detalhe são controladas pelo parâmetro `tab`; acessar um submenu seleciona a aba ao abrir o registro. Sem um registro selecionado, permanece a listagem existente, não uma tela global fictícia. Dados para pagamento continuam no detalhe do parceiro, com mascaramento, RBAC e auditoria existentes. Nenhum menu Financeiro foi criado.
+
+Visibilidade considera as permissões da primeira empresa ativa, a mesma usada pelas páginas; não combina permissões de outras empresas. Categorias vazias são ocultadas. Sem vínculo, a conta usada no teste real vê apenas Início. Não há um papel RBAC específico chamado partner no esquema homologado; a carteira continua protegida pelas políticas existentes. Não foi atribuído papel nem ampliado acesso de qualquer conta para viabilizar testes.
+
+### Arquivos e URLs
+
+Alterações desta complementação: `src/components/app-shell.tsx`, `src/routes/_authenticated/leads.tsx`, `src/routes/_authenticated/oportunidades.tsx`, `src/routes/_authenticated/parceiros.tsx`, `AGENTS.md`, `roadmap.md` e este relatório. A primeira parte da reorganização foi registrada no commit-base abaixo. Nenhuma URL foi renomeada ou removida; apenas `tab` foi acrescentado às três rotas existentes. Nenhuma migração, RLS, regra comercial ou função server-side alterada.
+
+### Evidências e pendências
+
+- Build automatizado: **build OK** após os ajustes.
+- Navegador: acesso autenticado via sessão autorizada, refresh, carregamento das dez URLs de módulos, logout e redirecionamento de URL protegida após logout passaram; nenhum erro JavaScript observado.
+- Desktop 1280×1800 e celular 390×844: menu e gaveta móvel conferidos por screenshots.
+- Página publicada `/auth`: botão Entrar renderizado, sem erro de variáveis ou tela em branco.
+- Login por senha não foi testado: nenhuma senha real foi solicitada; foi usada sessão autorizada. Validação de perfis administrativos/parceiros e dados de detalhe permanece limitada pela ausência de vínculos/papéis na conta disponível.
+- Os **110 testes foram invocados**, mas os quatro arquivos falharam na preparação: `createCompany: new row violates row-level security policy for table "companies"`. Portanto **110 casos pulados, não 110 aprovados** nesta execução. Houve também erro secundário de limpeza por fixture não criada. Não se enfraqueceu RLS nem se alteraram as suítes homologadas para mascarar essa falha. A última execução homologada 110/110 permanece somente evidência histórica, não resultado desta entrega.
+- Necessário clicar em **Publicar → Atualizar** para levar os menus à versão pública. A versão pública atual foi verificada; a reorganização nova ainda não foi republicada nem homologada.
+- Commit-base desta complementação: `eb057e17df0d761aeb79223223d467ad863b7afe`. O commit final será gerado pela plataforma após esta resposta e não estava disponível para verificação; não foi inventado um hash.
+
+**Conclusão:** alterações de navegação entregues para validação, com regressão e homologação por perfis ainda pendentes. Fase 4 bloqueada; nenhuma funcionalidade financeira adicional implementada. Desenvolvimento interrompido aguardando a IGA Tecnologia.
