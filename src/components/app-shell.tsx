@@ -76,7 +76,7 @@ const NAV: NavGroup[] = [
     label: "Governança",
     icon: ScrollText,
     items: [
-      { label: "Políticas, aceites e aprovações", to: "/governanca", perms: [] },
+      { label: "Políticas versionadas", to: "/governanca", perms: ["policy.manage"] },
       { label: "Auditoria", to: "/auditoria", perms: ["audit.read"] },
     ],
   },
