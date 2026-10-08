@@ -334,6 +334,7 @@ function LeadDetalhe({
   onClose: () => void;
 }) {
   const { tab } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const qc = useQueryClient();
   const { can } = usePermissions(companyId);
   const { data: me } = useMyContext();
@@ -388,7 +389,7 @@ function LeadDetalhe({
           </SheetDescription>
         </SheetHeader>
 
-        <Tabs defaultValue={tab ?? "acoes"} className="mt-4">
+        <Tabs value={tab ?? "acoes"} onValueChange={(tab) => { void navigate({ search: { tab }, replace: true }); }} className="mt-4">
           <TabsList className="w-full">
             <TabsTrigger value="acoes" className="flex-1">
               Ações
